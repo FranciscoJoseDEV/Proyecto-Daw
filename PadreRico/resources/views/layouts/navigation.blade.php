@@ -12,7 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white hover:text-gray-100">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-black hover:text-gray-100">
                         {{ __('Inicio') }}
                     </x-nav-link>
                 </div>
@@ -20,7 +20,7 @@
 
             <!-- Texto TU PADRE RICO -->
             <div class="hidden sm:flex items-center">
-                <h1 class="text-white italic text-4xl font-extrabold">
+                <h1 class="text-black italic text-4xl font-extrabold">
                     TU PADRE RICO
                 </h1>
             </div>

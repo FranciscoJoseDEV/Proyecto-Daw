@@ -18,6 +18,10 @@ return new class extends Migration
             $table->date('date_limit');
             $table->string('status');
             $table->timestamps();
+
+            $table->unsignedBigInteger('user_id'); // Clave foránea
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

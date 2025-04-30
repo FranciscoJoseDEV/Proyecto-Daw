@@ -1,19 +1,18 @@
 <aside x-data="{ open: false }"
     class="bg-secondary text-black flex flex-col transform transition-transform duration-300 md:translate-x-0"
-    :class="{ 'w-64': open, 'w-16': !open }"
-    @mouseenter="open = true" @mouseleave="open = false">
-    <nav class="flex-1 p-4">
+    :class="{ 'w-64': open, 'w-16': !open }" @mouseenter="open = true" @mouseleave="open = false">
+    <nav class="flex-1 p-4 overflow-y-auto">
         <ul>
             <li class="mb-4">
-                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">
-                    <span class="material-icons mr-2">dashboard</span>
-                    <span x-show="open" class="transition-opacity duration-300">Dashboard</span>
+                <a href="{{ route('profile.edit') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
+                    <span class="material-icons mr-2">person</span>
+                    <span x-show="open" class="transition-opacity duration-300">Perfil</span>
                 </a>
             </li>
             <li class="mb-4">
-                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">
-                    <span class="material-icons mr-2">account_balance_wallet</span>
-                    <span x-show="open" class="transition-opacity duration-300">Cuentas</span>
+                <a href="{{ route('dashboard') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
+                    <span class="material-icons mr-2">dashboard</span>
+                    <span x-show="open" class="transition-opacity duration-300">Dashboard</span>
                 </a>
             </li>
             <li class="mb-4">
