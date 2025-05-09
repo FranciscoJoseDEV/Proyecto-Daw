@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('layouts.app')
+
+@section('content')
     <div x-data="{ open: false }" class="flex h-screen">
         <!-- Botón para mostrar/ocultar el menú -->
         <button @click="open = !open"
@@ -68,4 +70,4 @@
     </div>
     
     @include('layouts.footer')
-</x-app-layout>
+@endsection

@@ -18,12 +18,21 @@
                 </div>
             </div>
 
-            <!-- Texto TU PADRE RICO -->
-            <div class="hidden sm:flex items-center">
+            <!-- Texto TU PADRE RICO y Logout Button -->
+            <div class="hidden sm:flex items-center space-x-8">
                 <h1 class="text-black italic text-4xl font-extrabold">
                     TU PADRE RICO
                 </h1>
+                @auth
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="text-black hover:text-gray-100 font-bold flex items-center">
+                            <span class="material-icons">logout</span>
+                        </button>
+                    </form>
+                @endauth
             </div>
+
         </div>
     </div>
 </nav>

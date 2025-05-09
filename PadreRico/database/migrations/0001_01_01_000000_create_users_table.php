@@ -20,7 +20,7 @@ return new class extends Migration
             $table->float('savings',2)->nullable()->default(0);
             $table->string('img')->nullable();
             $table->date('registration_date')->nullable();
-            $table->string('role')->default('1');
+            $table->integer('role')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('layouts.app')
+
+@section('content')
     <div class="flex">
         @include('layouts.aside') <!-- Incluye el aside aquí -->
 
@@ -30,4 +32,4 @@
         </div>
     </div>
     @include('layouts.footer')
-</x-app-layout>
+@endsection

@@ -2,7 +2,7 @@
     class="bg-secondary text-black flex flex-col transform transition-transform duration-300 md:translate-x-0"
     :class="{ 'w-64': open, 'w-16': !open }" @mouseenter="open = true" @mouseleave="open = false">
     <nav class="flex-1 p-4 overflow-y-auto">
-        <ul>
+        <ul class="top-0">
             <li class="mb-4">
                 <a href="{{ route('profile.edit') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">person</span>
@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li class="mb-4">
-                <a href="{{ route('dashboard') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
+                <a href="{{ route('user.dashboard') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">dashboard</span>
                     <span x-show="open" class="transition-opacity duration-300">Dashboard</span>
                 </a>
