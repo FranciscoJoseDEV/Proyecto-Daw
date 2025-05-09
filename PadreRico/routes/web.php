@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleManager;
-use App\Http\Controllers\TrueLayerController;
+use App\Http\Controllers\IncomeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,11 +31,9 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('/user/dashboard', function () {
         return view('dashboard');
     })->name('user.dashboard');
-});
 
-Route::get('/truelayer/connect', [TrueLayerController::class, 'redirectToTrueLayer'])->name('truelayer.connect');
-Route::get('/truelayer/callback', [TrueLayerController::class, 'handleCallback'])->name('truelayer.callback');
-Route::get('/truelayer/accounts', [TrueLayerController::class, 'getAccounts'])->name('truelayer.accounts');
-Route::get('/truelayer/accounts/{accountId}/transactions', [TrueLayerController::class, 'getTransactions'])->name('truelayer.transactions');
+    Route::get('user/{id}/income', IncomeController::class)->name('income.index'); 
+
+});
 
 require __DIR__ . '/auth.php';

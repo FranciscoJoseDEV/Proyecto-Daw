@@ -16,7 +16,7 @@
                 </a>
             </li>
             <li class="mb-4">
-                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">
+                <a href="{{ route('income.index', ['id' => Auth::user()->id]) }}" class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">trending_up</span>
                     <span x-show="open" class="transition-opacity duration-300">Ingresos</span>
                 </a>

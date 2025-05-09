@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             case '0': // Administradores
                 return redirect()->intended(route('admin.dashboard', absolute: false));
             case '1': // Usuarios
-                return redirect()->route('truelayer.connect');
+                return redirect()->intended(route('user.dashboard', absolute: false));
             default:
                 return redirect('/');
         }
