@@ -1,4 +1,11 @@
-<nav x-data="{ open: false }" class="bg-secondary border-b border-gray-100 text-black">
+<!-- Cambia el color de fondo de la barra de navegación -->
+<style>
+    .bg-cssecondary {
+        background-color: #9ACBD0 !important;
+        /* Cambia este color al que usabas antes */
+    }
+</style>
+<nav x-data="{ open: false }" class="bg-cssecondary border-b border-gray-100 text-black">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-24 items-center">

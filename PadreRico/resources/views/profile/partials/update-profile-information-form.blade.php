@@ -1,4 +1,4 @@
-<div class="justify-center  min-h-screen bg-secondary">
+<div class="justify-center  min-h-screen bg-cssecondary">
     <section class="flex-row gap-6 w-full max-w-4xl p-6 rounded-lg">
         <div class="w-1/2 p-4 rounded-lg">
             <header>

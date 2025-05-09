@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Income extends Model
+class Outcome extends Model
 {
 
-    protected $table = 'income';
+    protected $table = 'outcome';
 
     protected $fillable = [
         'id',
