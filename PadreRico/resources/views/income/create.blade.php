@@ -4,12 +4,11 @@
         @include('layouts.aside')
         <main class="flex-1 bg-gray-100 p-6">
             <h1 class="text-center mb-4">Agregar Nuevo Ingreso</h1>
-            <form action="{{ route('outcome.store') }}" method="POST">
+            <form action="{{ route('income.store', ['id' => Auth::user()->id]) }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="category" class="block text-gray-700">Categoría</label>
-                    <select name="category" id="category" required
-                        class="border border-gray-300 rounded p-2 w-full"
+                    <select name="category" id="category" required class="border border-gray-300 rounded p-2 w-full"
                         x-on:change="showOtherCategory = ($event.target.value === 'other')">
                         <option value="" disabled selected>Seleccione una categoría</option>
                         <option value="Salario">Salario</option>
@@ -30,15 +29,15 @@
                 <div class="mb-4">
                     <label for="date" class="block text-gray-700">Fecha</label>
                     <input type="date" name="date" id="date" required
-                        class="border border-gray-300 rounded p-2 w-full">
+                        class="border border-gray-300 rounded p-2 w-full" value="{{ date('Y-m-d') }}">
                 </div>
                 <div class="mb-4">
                     <label for="type" class="block text-gray-700">Tipo</label>
                     <input type="text" name="type" id="type" required
                         class="border border-gray-300 rounded p-2 w-full">
                 </div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Agregar
-                    Gasto</button>
+                <button type="submit" class="bg-cssecondary text-white px-4 py-2 rounded hover:bg-csdetails">Agregar
+                    Ingreso</button>
             </form>
             <div class="text-center mt-4">
                 <a href="{{ route('income.index', ['id' => Auth::user()->id]) }}" class="btn btn-primary">Volver al

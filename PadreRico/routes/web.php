@@ -42,7 +42,7 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('user/{id}/outcome', [OutcomeController::class, 'index'])->name('outcome.index');
     Route::get('user/{id}/outcome/create', [OutcomeController::class, 'create'])->name('outcome.create');
     Route::post('user/{id}/outcome/store', [OutcomeController::class, 'store'])->name('outcome.store');
-    Route::delete('user/{id}/outcome/{idInc}/destroy', [OutcomeController::class, 'destroy'])->name('outcome.destroy');
+    Route::delete('user/{id}/outcome/{idOut}/destroy', [OutcomeController::class, 'destroy'])->name('outcome.destroy');
 });
 
 require __DIR__ . '/auth.php';

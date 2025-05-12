@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->string('type');
             $table->timestamps();
-
+ 
             // Definir la clave foránea
             $table->unsignedBigInteger('user_id'); // Clave foránea
 

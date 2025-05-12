@@ -4,12 +4,11 @@
         @include('layouts.aside')
         <main class="flex-1 bg-gray-100 p-6">
             <h1 class="text-center mb-4">Agregar Nuevo Gasto</h1>
-            <form action="{{ route('outcome.store') }}" method="POST">
+            <form action="{{ route('outcome.store', ['id' => Auth::user()->id]) }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="category" class="block text-gray-700">Categoría</label>
-                    <select name="category" id="category" required
-                        class="border border-gray-300 rounded p-2 w-full"
+                    <select name="category" id="category" required class="border border-gray-300 rounded p-2 w-full"
                         x-on:change="showOtherCategory = ($event.target.value === 'other')">
                         <option value="" disabled selected>Seleccione una categoría</option>
                         <option value="Alimentación">Alimentación</option>
@@ -31,7 +30,7 @@
                 <div class="mb-4">
                     <label for="date" class="block text-gray-700">Fecha</label>
                     <input type="date" name="date" id="date" required
-                        class="border border-gray-300 rounded p-2 w-full">
+                        class="border border-gray-300 rounded p-2 w-full" value="{{ date('Y-m-d') }}">
                 </div>
                 <div class="mb-4">
                     <label for="type" class="block text-gray-700">Tipo</label>

@@ -1,23 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .table-container {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        .table th {
-            background-color: #343a40;
-            color: #ffffff;
-        }
-    </style>
-
     <div x-data="{ open: false }" class="flex h-screen">
         <!-- Aside layout -->
         @include('layouts.aside')
@@ -26,7 +8,8 @@
         <main class="flex-1 bg-gray-100 p-6">
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-center">Lista de Ingresos</h1>
-                <a href="{{ route('income.create', ['id' => Auth::user()->id]) }}" class="btn btn-success">Agregar Nuevo Ingreso</a>
+                <a href="{{ route('income.create', ['id' => Auth::user()->id]) }}" class="btn btn-success">Agregar Nuevo
+                    Ingreso</a>
             </div>
 
             <div class="table-container">

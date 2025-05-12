@@ -6,33 +6,33 @@
             <li class="mb-4">
                 <a href="{{ route('profile.edit') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">person</span>
-                    <span x-show="open" class="transition-opacity duration-300">Perfil</span>
+                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Perfil</span>
                 </a>
             </li>
             <li class="mb-4">
                 <a href="{{ route('user.dashboard') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">dashboard</span>
-                    <span x-show="open" class="transition-opacity duration-300">Dashboard</span>
+                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Dashboard</span>
                 </a>
             </li>
             <li class="mb-4">
                 <a href="{{ route('income.index', ['id' => Auth::user()->id]) }}"
                     class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">trending_up</span>
-                    <span x-show="open" class="transition-opacity duration-300">Ingresos</span>
+                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Ingresos</span>
                 </a>
             </li>
             <li class="mb-4">
                 <a href="{{ route('outcome.index', ['id' => Auth::user()->id]) }}"
                     class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">trending_down</span>
-                    <span x-show="open" class="transition-opacity duration-300">Gastos</span>
+                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Gastos</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">settings</span>
-                    <span x-show="open" class="transition-opacity duration-300">Configuración</span>
+                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Configuración</span>
                 </a>
             </li>
         </ul>
