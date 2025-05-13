@@ -30,9 +30,9 @@ class AuthenticatedSessionController extends Controller
         $authUserRol = Auth::user()->role;
 
         switch ($authUserRol) {
-            case '0':
+            case 0:
                 return redirect()->intended(route('admin.dashboard', absolute: false));
-            case '1':
+            case 1:
                 return redirect()->intended(route('user.dashboard', absolute: false));
             default:
                 return redirect('/');

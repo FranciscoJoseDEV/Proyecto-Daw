@@ -16,11 +16,10 @@ return new class extends Migration
             $table->string('category');
             $table->float('amount');
             $table->date('date');
-            $table->string('type');
+            $table->string('description')->nullable();
             $table->timestamps();
  
-            // Definir la clave foránea
-            $table->unsignedBigInteger('user_id'); // Clave foránea
+            $table->unsignedBigInteger('user_id'); 
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

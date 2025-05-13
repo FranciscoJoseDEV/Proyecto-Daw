@@ -9,17 +9,42 @@
     <style>
         .bg-csprimary {
             background-color: #F2EFE7 !important;
-            /* Cambia este color al que usabas antes */
         }
 
         .bg-csdetails {
             background-color: #48A6A7 !important;
-            /* Cambia este color al que usabas antes */
         }
 
         .bg-cssecondary {
             background-color: #9ACBD0 !important;
-            /* Cambia este color al que usabas antes */
+        }
+
+        /* Estructura fija */
+        .layout-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .layout-main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        aside {
+            width: 250px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        main {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        footer {
+            flex-shrink: 0;
         }
     </style>
 
@@ -39,22 +64,28 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-csprimary">
+    <div class="layout-container bg-csprimary">
+        <!-- Navigation -->
         @include('layouts.navigation')
 
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
+        <!-- Main Layout -->
+        <div class="layout-main">
+            <!-- Aside -->
+            @include('layouts.aside')
 
-        <!-- Page Content -->
-        <main>
-            @yield('content')
-        </main>
+            <!-- Page Content -->
+            <main>
+                @isset($header)
+                    <header class="bg-white shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                @yield('content')
+            </main>
+        </div>
 
         <!-- Footer -->
         @include('layouts.footer')

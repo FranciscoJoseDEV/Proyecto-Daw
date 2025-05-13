@@ -11,7 +11,7 @@
             </header>
 
             <div class="w-1/2 flex justify-center items-center">
-                <img src="{{ $user->img ? asset('storage/' . $user->img) : asset('profilePictures/Default-profile.jpg') }}" 
+                <img src="{{ $user->img ? asset('storage/' . $user->img) : asset('imgs/9187604.png') }}" 
                      alt="Imagen de perfil" 
                      class="w-48 h-48 rounded-full border-2 border-gray-300 object-cover">
             </div>

@@ -10,9 +10,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Trigger para la tabla income
-        DB::statement('
-            CREATE TRIGGER actualizar_saldo_income
+        // INCOME: INSERT → suma a savings
+        DB::unprepared('
+            CREATE TRIGGER after_insert_income
             AFTER INSERT ON income
             FOR EACH ROW
             BEGIN
@@ -22,15 +22,83 @@ return new class extends Migration
             END
         ');
 
-        // Trigger para la tabla outcome
-        DB::statement('
-            CREATE TRIGGER actualizar_saldo_outcome
+        // INCOME: DELETE → resta de savings
+        DB::unprepared('
+            CREATE TRIGGER after_delete_income
+            AFTER DELETE ON income
+            FOR EACH ROW
+            BEGIN
+                UPDATE users
+                SET savings = savings - OLD.amount
+                WHERE id = OLD.user_id;
+            END
+        ');
+
+        // INCOME: UPDATE → revierte old y aplica new
+        DB::unprepared('
+            CREATE TRIGGER after_update_income
+            AFTER UPDATE ON income
+            FOR EACH ROW
+            BEGIN
+                IF OLD.user_id != NEW.user_id THEN
+                    UPDATE users
+                    SET savings = savings - OLD.amount
+                    WHERE id = OLD.user_id;
+
+                    UPDATE users
+                    SET savings = savings + NEW.amount
+                    WHERE id = NEW.user_id;
+                ELSE
+                    UPDATE users
+                    SET savings = savings - OLD.amount + NEW.amount
+                    WHERE id = NEW.user_id;
+                END IF;
+            END
+        ');
+
+        // OUTCOME: INSERT → resta de savings
+        DB::unprepared('
+            CREATE TRIGGER after_insert_outcome
             AFTER INSERT ON outcome
             FOR EACH ROW
             BEGIN
                 UPDATE users
                 SET savings = savings - NEW.amount
                 WHERE id = NEW.user_id;
+            END
+        ');
+
+        // OUTCOME: DELETE → suma a savings
+        DB::unprepared('
+            CREATE TRIGGER after_delete_outcome
+            AFTER DELETE ON outcome
+            FOR EACH ROW
+            BEGIN
+                UPDATE users
+                SET savings = savings + OLD.amount
+                WHERE id = OLD.user_id;
+            END
+        ');
+
+        // OUTCOME: UPDATE → revierte old y aplica new
+        DB::unprepared('
+            CREATE TRIGGER after_update_outcome
+            AFTER UPDATE ON outcome
+            FOR EACH ROW
+            BEGIN
+                IF OLD.user_id != NEW.user_id THEN
+                    UPDATE users
+                    SET savings = savings + OLD.amount
+                    WHERE id = OLD.user_id;
+
+                    UPDATE users
+                    SET savings = savings - NEW.amount
+                    WHERE id = NEW.user_id;
+                ELSE
+                    UPDATE users
+                    SET savings = savings + OLD.amount - NEW.amount
+                    WHERE id = NEW.user_id;
+                END IF;
             END
         ');
     }
@@ -40,8 +108,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Eliminar los triggers
-        DB::statement('DROP TRIGGER IF EXISTS actualizar_saldo_income');
-        DB::statement('DROP TRIGGER IF EXISTS actualizar_saldo_outcome');
+        DB::statement('DROP TRIGGER IF EXISTS after_insert_income');
+        DB::statement('DROP TRIGGER IF EXISTS after_delete_income');
+        DB::statement('DROP TRIGGER IF EXISTS after_update_income');
+
+        DB::statement('DROP TRIGGER IF EXISTS after_insert_outcome');
+        DB::statement('DROP TRIGGER IF EXISTS after_delete_outcome');
+        DB::statement('DROP TRIGGER IF EXISTS after_update_outcome');
     }
 };

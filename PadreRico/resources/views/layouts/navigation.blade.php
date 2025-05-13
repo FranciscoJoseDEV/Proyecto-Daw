@@ -4,8 +4,12 @@
         background-color: #9ACBD0 !important;
         /* Cambia este color al que usabas antes */
     }
+    .border-cssecondary {
+        background-color: #9ACBD0 !important;
+        /* Cambia este color al que usabas antes */
+    }
 </style>
-<nav x-data="{ open: false }" class="bg-cssecondary border-b border-gray-100 text-black">
+<nav x-data="{ open: false }" class="bg-cssecondary text-black">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-24 items-center">

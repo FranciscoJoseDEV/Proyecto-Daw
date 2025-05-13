@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Income extends Model
 {
-
     protected $table = 'income';
 
     protected $fillable = [
-        'id',
         'category',
         'amount',
         'date',
@@ -19,6 +18,13 @@ class Income extends Model
     ];
 
     protected $casts = [
-        'date' => 'datetime'
+        'date' => 'datetime',
+        'amount' => 'float',
     ];
+
+    public function user(): BelongsTo
+    {
+        
+        return $this->belongsTo(User::class);
+    }
 }

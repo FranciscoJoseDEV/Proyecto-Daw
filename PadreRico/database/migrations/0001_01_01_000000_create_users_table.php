@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration
 {
@@ -17,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->float('savings',2)->nullable()->default(0);
+            $table->float('savings', 2)->nullable()->default(0);
             $table->string('img')->nullable();
             $table->date('registration_date')->nullable();
             $table->integer('role')->default('1');
@@ -37,8 +39,18 @@ return new class extends Migration
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
-            $table->integer('last_activity')->index(); 
-        }); 
+            $table->integer('last_activity')->index();
+        });
+
+        // Crear un usuario por defecto con rol de administrador
+        DB::table('users')->insert([
+            'name' => 'Francisco',
+            'email' => 'francisco@administrador.com',
+            'password' => Hash::make('12345678'), 
+            'role' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**

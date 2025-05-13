@@ -7,14 +7,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleManager;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\OutcomeController;
+use App\Http\Controllers\DefaulterController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('user.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // Rutas protegidas para usuarios autenticados
 Route::middleware('auth')->group(function () {
@@ -34,15 +36,21 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
 
     //Income routes
     Route::get('user/{id}/income', [IncomeController::class, 'index'])->name('income.index');
+    Route::delete('user/{id}/income/{idInc}/destroy', [IncomeController::class, 'destroy'])->name('income.destroy');
     Route::get('user/{id}/income/create', [IncomeController::class, 'create'])->name('income.create');
     Route::post('user/{id}/income/store', [IncomeController::class, 'store'])->name('income.store');
-    Route::delete('user/{id}/income/{idInc}/destroy', [IncomeController::class, 'destroy'])->name('income.destroy');
 
     //Outcome routes
     Route::get('user/{id}/outcome', [OutcomeController::class, 'index'])->name('outcome.index');
     Route::get('user/{id}/outcome/create', [OutcomeController::class, 'create'])->name('outcome.create');
     Route::post('user/{id}/outcome/store', [OutcomeController::class, 'store'])->name('outcome.store');
     Route::delete('user/{id}/outcome/{idOut}/destroy', [OutcomeController::class, 'destroy'])->name('outcome.destroy');
+
+    //Defaulter routes 
+    Route::get('user/{id}/defaulter', [DefaulterController::class, 'index'])->name('defaulter.index');
+    Route::get('user/{id}/defaulter/create', [DefaulterController::class, 'create'])->name('defaulter.create');
+    Route::post('user/{id}/defaulter/store', [DefaulterController::class, 'store'])->name('defaulter.store');
+    Route::delete('user/{id}/defaulter/{idDef}/destroy', [DefaulterController::class, 'destroy'])->name('defaulter.destroy');
 });
 
 require __DIR__ . '/auth.php';

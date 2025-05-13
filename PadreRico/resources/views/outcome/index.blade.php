@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('content')
     <div x-data="{ open: false }" class="flex h-screen">
-        <!-- Aside layout -->
-        @include('layouts.aside')
+
 
         <!-- Main content -->
         <main class="flex-1 bg-gray-100 p-6">
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-center">Lista de Gastos</h1>
-                <a href="{{ route('outcome.create', ['id' => Auth::user()->id]) }}" class="btn btn-success">Agregar Nuevo
-                    gasto</a>
+                <a href="{{ route('outcome.create', ['id' => Auth::user()->id]) }}" class="btn btn-success flex items-center">
+                    <span class="material-icons">add</span>
+                </a>
             </div>
 
             <div class="table-container">
@@ -24,7 +24,18 @@
                                 <h2 class="text-black font-bold">{{ $outcome->category }}</h2>
                                 <p class="text-black">Monto: ${{ number_format($outcome->amount, 2) }}</p>
                                 <p class="text-black">Fecha: {{ $outcome->date->format('d/m/Y') }}</p>
+
+                                <form
+                                    action="{{ route('outcome.destroy', ['id' => Auth::user()->id, 'idOut' => $outcome->id]) }}"
+                                    method="POST" class="mt-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="flex items-center">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+                                </form>
                             </div>
+                            <!-- Botón para eliminar -->
                         @endforeach
                     </div>
 

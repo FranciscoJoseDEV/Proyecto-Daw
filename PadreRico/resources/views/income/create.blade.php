@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <div x-data="{ open: false, showOtherCategory: false }" class="flex h-screen">
-        @include('layouts.aside')
         <main class="flex-1 bg-gray-100 p-6">
             <h1 class="text-center mb-4">Agregar Nuevo Ingreso</h1>
             <form action="{{ route('income.store', ['id' => Auth::user()->id]) }}" method="POST">
@@ -36,7 +35,7 @@
                     <input type="text" name="type" id="type" required
                         class="border border-gray-300 rounded p-2 w-full">
                 </div>
-                <button type="submit" class="bg-cssecondary text-white px-4 py-2 rounded hover:bg-csdetails">Agregar
+                <button type="submit" class="bg-cssecondary text-white px-4 py-2 rounded ">Agregar
                     Ingreso</button>
             </form>
             <div class="text-center mt-4">

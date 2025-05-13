@@ -7,15 +7,15 @@ use App\Models\Outcome;
 
 class OutcomeController extends Controller
 {
-     public function index($id)
+    public function index($id)
     {
-        $outcomes = Outcome::where('user_id', $id)->paginate(5); 
+        $outcomes = Outcome::where('user_id', $id)->paginate(5);
 
         return view('outcome.index', compact('outcomes'));
     }
-    public function destroy($idInc, $id)
+    public function destroy($id, $idOut)
     {
-        $outcomes = Outcome::findOrFail($idInc);
+        $outcomes = Outcome::findOrFail($idOut);
         $outcomes->delete();
 
         return redirect()->route('outcome.index', ['id' => $id])->with('success', 'Income deleted successfully.');

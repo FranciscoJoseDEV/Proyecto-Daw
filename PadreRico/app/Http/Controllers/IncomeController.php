@@ -7,7 +7,7 @@ use App\Models\Income;
 
 class IncomeController extends Controller
 {
-     /**
+    /**
      * Display a listing of the incomes.
      */
     public function index($id)
@@ -18,13 +18,17 @@ class IncomeController extends Controller
 
         return view('income.index', compact('incomes'));
     }
-    public function destroy($idInc, $id)
+
+    public function destroy($id, $idInc)
     {
         $income = Income::findOrFail($idInc);
+        
         $income->delete();
 
         return redirect()->route('income.index', ['id' => $id])->with('success', 'Income deleted successfully.');
     }
+
+
     public function create($id)
     {
         return view('income.create', compact('id'));
@@ -48,6 +52,4 @@ class IncomeController extends Controller
 
         return redirect()->route('income.index', ['id' => $id])->with('success', 'Income created successfully.');
     }
-   
-       
 }

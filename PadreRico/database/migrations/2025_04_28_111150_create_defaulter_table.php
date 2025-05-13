@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('defaulter', function (Blueprint $table) {
+        Schema::create('defaulters', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('email')->unique();
-            $table->string('description')->unique();
-            $table->string('amount')->unique();
-            $table->string('date')->unique();
-            $table->timestamps();
-
             $table->unsignedBigInteger('user_id'); // Clave foránea
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('description');
+            $table->decimal('amount', 10, 2); // Cambiado a decimal para cantidades monetarias
+            $table->date('inicial_date'); // Fecha inicial
+            $table->date('due_date'); // Fecha de vencimiento
+            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('defaulter');
+        Schema::dropIfExists('defaulters');
     }
 };

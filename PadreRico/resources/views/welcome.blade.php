@@ -39,7 +39,8 @@
                     mientras desbloqueas logros para compartir con amigos y familiares.</p>
             </div>
             <div class="mt-10 flex justify-center">
-                <img src="{{ asset('imgs/Gestion.png') }}" alt="Gráfica de Finanzas" class="w-3/4 max-w-md rounded-lg shadow-lg">
+                <img src="{{ asset('imgs/Gestion.png') }}" alt="Gráfica de Finanzas"
+                    class="w-3/4 max-w-md rounded-lg shadow-lg">
             </div>
             <p class="text-lg md:text-xl text-gray-800 text-justify">Con resumenes mensuales y semanales para que no se
                 te escape ningun detalle</p>

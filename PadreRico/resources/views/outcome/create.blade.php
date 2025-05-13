@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <div x-data="{ open: false, showOtherCategory: false }" class="flex h-screen">
-        @include('layouts.aside')
         <main class="flex-1 bg-gray-100 p-6">
             <h1 class="text-center mb-4">Agregar Nuevo Gasto</h1>
             <form action="{{ route('outcome.store', ['id' => Auth::user()->id]) }}" method="POST">
