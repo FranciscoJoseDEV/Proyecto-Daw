@@ -14,7 +14,7 @@ class Outcome extends Model
         'category',
         'amount',
         'date',
-        'type',
+        'description',
         'user_id',
     ];
 

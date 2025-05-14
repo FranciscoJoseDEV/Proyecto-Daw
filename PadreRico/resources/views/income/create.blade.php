@@ -35,12 +35,11 @@
                     <input type="text" name="type" id="type" required
                         class="border border-gray-300 rounded p-2 w-full">
                 </div>
-                <button type="submit" class="bg-cssecondary text-white px-4 py-2 rounded ">Agregar
+                <button type="submit" class="bg-cssecondary text-black px-4 py-2 rounded ">Agregar
                     Ingreso</button>
             </form>
             <div class="text-center mt-4">
-                <a href="{{ route('income.index', ['id' => Auth::user()->id]) }}" class="btn btn-primary">Volver al
-                    Volver</a>
+                <a href="{{ route('income.index', ['id' => Auth::user()->id]) }}" class="btn bg-cssecondary text-black px-4 py-2 rounded">Volver</a>
             </div>
         </main>
     </div>

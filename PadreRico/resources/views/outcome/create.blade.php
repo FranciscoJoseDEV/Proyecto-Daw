@@ -36,7 +36,7 @@
                     <input type="text" name="type" id="type" required
                         class="border border-gray-300 rounded p-2 w-full">
                 </div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Agregar
+                <button type="submit" class="bg-cssecondary text-black px-4 py-2 rounded hover:bg-blue-600">Agregar
                     Gasto</button>
             </form>
             <div class="text-center mt-4">

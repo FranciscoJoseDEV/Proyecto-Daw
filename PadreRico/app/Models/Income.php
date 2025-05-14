@@ -13,7 +13,7 @@ class Income extends Model
         'category',
         'amount',
         'date',
-        'type',
+        'description',
         'user_id',
     ];
 

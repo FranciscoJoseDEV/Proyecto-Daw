@@ -8,6 +8,7 @@ use App\Http\Middleware\RoleManager;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\DefaulterController;
+use App\Http\Controllers\DefaultorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,6 +52,15 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('user/{id}/defaulter/create', [DefaulterController::class, 'create'])->name('defaulter.create');
     Route::post('user/{id}/defaulter/store', [DefaulterController::class, 'store'])->name('defaulter.store');
     Route::delete('user/{id}/defaulter/{idDef}/destroy', [DefaulterController::class, 'destroy'])->name('defaulter.destroy');
+    Route::get('user/{id}/defaulter/{idDef}/show', [DefaulterController::class, 'show'])->name('defaulter.show');
+
+    Route::get('user/{id}/mydebts', [DefaultorController::class, 'index'])->name('defaultors.index');
+
+    //Statistics routes
+    Route::get('user/{id}/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+
+
+
 });
 
 require __DIR__ . '/auth.php';

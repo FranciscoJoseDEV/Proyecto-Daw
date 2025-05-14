@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,16 +13,19 @@ return new class extends Migration
     {
         Schema::create('defaulters', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Clave foránea
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->unsignedBigInteger('debtor_user_id'); 
+            $table->unsignedBigInteger('beneficiary_user_id'); 
             $table->string('description');
-            $table->decimal('amount', 10, 2); // Cambiado a decimal para cantidades monetarias
-            $table->date('inicial_date'); // Fecha inicial
-            $table->date('due_date'); // Fecha de vencimiento
+            $table->decimal('amount', 10, 2); 
+            $table->date('inicial_date');
+            $table->date('due_date'); 
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // Relación con la tabla users (deudor)
+            $table->foreign('debtor_user_id')->references('id')->on('users')->onDelete('cascade');
+            
+            // Relación con la tabla users (beneficiario)
+            $table->foreign('beneficiary_user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -2,25 +2,36 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Defaulter extends Model
 {
-    protected $table = 'defaulters';
+    use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'name',
-        'email',
+        'debtor_user_id',
+        'beneficiary_user_id',
         'description',
         'amount',
         'inicial_date',
         'due_date',
-        'description',
     ];
 
-    public function user()
+    /**
+     * Obtener el usuario que es deudor.
+     */
+    public function debtor()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'debtor_user_id');
+    }
+
+    /**
+     * Obtener el usuario que es beneficiario.
+     */
+    public function beneficiary()
+    {
+        return $this->belongsTo(User::class, 'beneficiary_user_id');
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('category');
             $table->float('amount');
             $table->date('date');
-            $table->string('type');
+            $table->string('description')->nullable();
             $table->timestamps();
  
             $table->unsignedBigInteger('user_id'); // Clave foránea
