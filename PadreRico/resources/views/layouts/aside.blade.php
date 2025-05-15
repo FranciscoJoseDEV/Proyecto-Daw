@@ -1,9 +1,11 @@
-<aside x-data="{ open: false, subOpen: false }"
+<aside x-data="{ open: false, subOpen: false, statsOpen: false }"
     class="bg-cssecondary text-black flex flex-col transform transition-transform duration-300 md:translate-x-0"
     :class="{ 'w-64': open, 'w-12': !open }" @mouseenter="open = true" @mouseleave="open = false">
 
     <!-- Cierra el submenú cuando el sidebar se cierre -->
     <div x-effect="if (!open) subOpen = false"></div>
+    <div x-effect="if (!open) statsOpen = false"></div>
+
 
     <nav class="flex-1 p-4 overflow-y-auto">
         <ul class="top-0">
@@ -40,7 +42,7 @@
                 <button @click="subOpen = !subOpen"
                     class="flex items-center p-2 rounded hover:bg-gray-700 focus:outline-none">
                     <span class="material-icons mr-2">payments</span>
-                    <span x-show="open" class="transition-opacity duration-300 flex-1 text-left">&nbsp;Deudores</span>
+                    <span x-show="open" class="transition-opacity duration-300 flex-1 text-left">&nbsp;Deudas</span>
                     <span x-show="open" class="material-icons ml-auto transition-transform duration-300"
                         :class="{ 'rotate-45': subOpen }">keyboard_arrow_down</span>
                 </button>
@@ -64,12 +66,32 @@
                 </ul>
             </li>
 
-            <!-- Configuración -->
-            <li>
-                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">
+            <!-- Menú desplegable para Estadísticas -->
+            <li class="mb-4">
+                <button @click="statsOpen = !statsOpen"
+                    class="flex items-center p-2 rounded hover:bg-gray-700 focus:outline-none">
                     <span class="material-icons mr-2">pie_chart</span>
-                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Resumenes</span>
-                </a>
+                    <span x-show="open" class="transition-opacity duration-300 flex-1 text-left">&nbsp;Estadísticas</span>
+                    <span x-show="open" class="material-icons ml-auto transition-transform duration-300"
+                        :class="{ 'rotate-45': statsOpen }">keyboard_arrow_down</span>
+                </button>
+                <!-- Submenú -->
+                <ul x-show="statsOpen" x-collapse class="ml-8 mt-2 space-y-2" x-cloak>
+                    <li>
+                        <a href="{{ route('statistics.index_monthly', ['id' => Auth::user()->id]) }}"
+                            class="flex items-center gap-2 p-2 rounded hover:bg-gray-700 text-sm transition-colors duration-200">
+                            <span class="material-icons text-sm">calendar_month</span>
+                            <span>Mensuales</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('statistics.index_weekly', ['id' => Auth::user()->id]) }}"
+                            class="flex items-center gap-2 p-2 rounded hover:bg-gray-700 text-sm transition-colors duration-200">
+                            <span class="material-icons text-sm">calendar_view_week</span>
+                            <span>Semanales</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </nav>

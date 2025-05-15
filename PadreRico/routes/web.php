@@ -9,6 +9,7 @@ use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\DefaulterController;
 use App\Http\Controllers\DefaultorController;
+use App\Http\Controllers\StatisticsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,9 +58,8 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('user/{id}/mydebts', [DefaultorController::class, 'index'])->name('defaultors.index');
 
     //Statistics routes
-    Route::get('user/{id}/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
-
-
+    Route::get('user/{id}/statistics/monthly', [StatisticsController::class, 'index_monthly'])->name('statistics.index_monthly');
+    Route::get('user/{id}/statistics/weekly', [StatisticsController::class, 'index_weekly'])->name('statistics.index_weekly');
 
 });
 

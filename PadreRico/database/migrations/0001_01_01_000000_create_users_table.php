@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('password');
             $table->float('savings', 2)->nullable()->default(0);
             $table->string('img')->nullable();
-            $table->date('registration_date')->nullable();
             $table->integer('role')->default('1');
             $table->rememberToken();
             $table->timestamps();

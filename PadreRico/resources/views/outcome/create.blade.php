@@ -15,7 +15,7 @@
                         <option value="Entretenimiento">Entretenimiento</option>
                         <option value="Educación">Educación</option>
                         <option value="Salud">Salud</option>
-                        <option value="other">Otra</option>
+                        <option value="Other">Otra</option>
                     </select>
                     <input type="text" name="other_category" id="other_category" placeholder="Especifique la categoría"
                         x-show="showOtherCategory" x-bind:required="showOtherCategory"

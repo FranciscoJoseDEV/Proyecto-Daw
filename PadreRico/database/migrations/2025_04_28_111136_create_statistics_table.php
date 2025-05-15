@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
-            $table->string('genral_balance')->unique();
-            $table->string('income_vs_outcome');
+            $table->string('general_balance');
+            $table->string('income_total');
+            $table->string('outcome_total');
             $table->string('outcome_category');
             $table->string('most_spending_day');
-            $table->string('active_suscriptions');
-            $table->string('expenses_alert');
+            $table->string('most_spending_day_total');
             $table->string('M_or_W');
-            $table->string('serial');
             $table->string('date');
             $table->timestamps();
 

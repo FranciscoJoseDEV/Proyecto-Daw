@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mockery\CountValidator\AtMost;
 
 class Statistic extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'genral_balance',
-        'income_vs_outcome',
+        'general_balance',
+        'income_total',
+        'outcome_total',
         'outcome_category',
         'most_spending_day',
-        'active_suscriptions',
+        'most_spending_day_total',
         'expenses_alert',
         'M_or_W',
-        'serial',
         'date',
         'user_id',
     ];
