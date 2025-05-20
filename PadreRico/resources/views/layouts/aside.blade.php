@@ -1,5 +1,5 @@
 <aside x-data="{ open: false, subOpen: false, statsOpen: false }"
-    class="bg-cssecondary text-black flex flex-col transform transition-transform duration-300 md:translate-x-0"
+    class="bg-cssecondary text-black flex flex-col transform transition-transform duration-300 md:translate-x-0 overflow-hidden"
     :class="{ 'w-64': open, 'w-12': !open }" @mouseenter="open = true" @mouseleave="open = false">
 
     <!-- Cierra el submenú cuando el sidebar se cierre -->
@@ -7,7 +7,7 @@
     <div x-effect="if (!open) statsOpen = false"></div>
 
 
-    <nav class="flex-1 p-4 overflow-y-auto">
+    <nav class="flex-1 p-4">
         <ul class="top-0">
             <!-- Otros enlaces -->
             <li class="mb-4">
@@ -34,6 +34,14 @@
                     class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">trending_down</span>
                     <span x-show="open" class="transition-opacity duration-300">&nbsp;Gastos</span>
+                </a>
+            </li>
+
+             <li class="mb-4">
+                <a href="{{ route('savingsobj.index', ['id' => Auth::user()->id]) }}"
+                    class="flex items-center p-2 rounded hover:bg-gray-700">
+                    <span class="material-icons mr-2">track_changes</span>
+                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Objetivos</span>
                 </a>
             </li>
 
@@ -71,7 +79,8 @@
                 <button @click="statsOpen = !statsOpen"
                     class="flex items-center p-2 rounded hover:bg-gray-700 focus:outline-none">
                     <span class="material-icons mr-2">pie_chart</span>
-                    <span x-show="open" class="transition-opacity duration-300 flex-1 text-left">&nbsp;Estadísticas</span>
+                    <span x-show="open"
+                        class="transition-opacity duration-300 flex-1 text-left">&nbsp;Estadísticas</span>
                     <span x-show="open" class="material-icons ml-auto transition-transform duration-300"
                         :class="{ 'rotate-45': statsOpen }">keyboard_arrow_down</span>
                 </button>
@@ -93,6 +102,8 @@
                     </li>
                 </ul>
             </li>
+
+           
         </ul>
     </nav>
 </aside>

@@ -9,7 +9,9 @@ class OutcomeController extends Controller
 {
     public function index($id)
     {
-        $outcomes = Outcome::where('user_id', $id)->paginate(5);
+        $outcomes = Outcome::where('user_id', $id)
+            ->orderBy('date', 'desc') // Mostrar los más recientes primero
+            ->paginate(5);
 
         return view('outcome.index', compact('outcomes'));
     }
@@ -28,7 +30,7 @@ class OutcomeController extends Controller
     {
         $request->validate([
             'category' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
             'amount' => 'required|numeric',
             'date' => 'required|date',
         ]);
@@ -37,7 +39,7 @@ class OutcomeController extends Controller
             'category' => $request->input('category'),
             'amount' => $request->input('amount'),
             'date' => $request->input('date'),
-            'type' => $request->input('type'),
+            'description' => $request->input('description'),
             'user_id' => $id,
         ]);
 

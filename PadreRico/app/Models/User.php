@@ -23,6 +23,9 @@ class User extends Authenticatable
         'password',
         'img',
         'role',
+        'savings',
+        'last_login_date',
+        'streak_count',
     ];
 
     /**

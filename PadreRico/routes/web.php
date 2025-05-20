@@ -10,6 +10,7 @@ use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\DefaulterController;
 use App\Http\Controllers\DefaultorController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\SavingsObjectiveController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -61,6 +62,11 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('user/{id}/statistics/monthly', [StatisticsController::class, 'index_monthly'])->name('statistics.index_monthly');
     Route::get('user/{id}/statistics/weekly', [StatisticsController::class, 'index_weekly'])->name('statistics.index_weekly');
 
+    //savings objectives routes
+    Route::get('user/{id}/savings', [SavingsObjectiveController::class, 'index'])->name('savingsobj.index');
+    Route::get('user/{id}/savings/create', [SavingsObjectiveController::class, 'create'])->name('savingsobj.create');
+    Route::post('user/{id}/savings/store', [SavingsObjectiveController::class, 'store'])->name('savingsobj.store');
+    Route::put('/savings_objective/{id}', [SavingsObjectiveController::class, 'update'])->name('savingsobj.update');
 });
 
 require __DIR__ . '/auth.php';

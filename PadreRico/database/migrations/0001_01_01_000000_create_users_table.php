@@ -22,6 +22,9 @@ return new class extends Migration
             $table->float('savings', 2)->nullable()->default(0);
             $table->string('img')->nullable();
             $table->integer('role')->default('1');
+            $table->string('last_login_date')->nullable();
+            $table->string('num_obj_completed')->nullable();
+            $table->integer('streak_count')->nullable()->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
