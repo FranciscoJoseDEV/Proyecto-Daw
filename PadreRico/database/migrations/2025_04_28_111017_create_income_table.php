@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('amount');
             $table->date('date');
             $table->string('description')->nullable();
+            $table->string('recurrent')->default('0');
             $table->timestamps();
  
             $table->unsignedBigInteger('user_id'); 

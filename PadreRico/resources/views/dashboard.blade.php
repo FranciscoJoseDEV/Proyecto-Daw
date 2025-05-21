@@ -16,8 +16,7 @@
                     <div class="card-body">
                         <div class="row">
                             <!-- Columna Balance -->
-                            <div
-                                class="col-md-6 mb-4 d-flex flex-column align-items-center justify-content-center">
+                            <div class="col-md-6 mb-4 d-flex flex-column align-items-center justify-content-center">
                                 <span
                                     class="material-icons text-green-400 text-5xl mb-2 animate-bounce">account_balance_wallet</span>
                                 <h2 class="text-xl font-semibold text-gray-700 mb-1">Balance Actual</h2>
@@ -26,8 +25,7 @@
                                 </p>
                             </div>
                             <!-- Columna Racha -->
-                            <div
-                                class="col-md-6 mb-4 d-flex flex-column align-items-center justify-content-center">
+                            <div class="col-md-6 mb-4 d-flex flex-column align-items-center justify-content-center">
                                 <span id="streak-icon"
                                     class="material-icons text-yellow-400 text-5xl mb-2 animate-pulse">local_fire_department</span>
                                 <h2 class="text-xl font-semibold text-gray-700 mb-1">Racha de Días</h2>
@@ -45,87 +43,13 @@
                     </div>
                 </div>
             </div>
-
-            {{-- MOVIMIENTOS RECIENTES --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Ingresos -->
-                <div class="bg-white shadow rounded-xl p-6">
-                    <h3 class="text-md font-semibold mb-2 text-blue-500 flex items-center gap-2">
-                        <span class="material-icons text-blue-400">trending_up</span> Ingresos
-                    </h3>
-                    @if ($incomes->isNotEmpty())
-                        <div class="mb-2 text-sm text-blue-700">
-                            Total: +{{ number_format($incomes->sum('amount'), 2) }} €
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="table-auto w-full">
-                                <thead>
-                                    <tr class="bg-blue-50">
-                                        <th class="px-4 py-2">Categoría</th>
-                                        <th class="px-4 py-2">Fecha</th>
-                                        <th class="px-4 py-2">Monto</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($incomes as $income)
-                                        <tr class="even:bg-blue-50">
-                                            <td class="px-4 py-2">{{ $income->category }}</td>
-                                            <td class="px-4 py-2">
-                                                {{ \Carbon\Carbon::parse($income->date)->format('d/m/Y') }}</td>
-                                            <td class="px-4 py-2 text-green-600 font-semibold">
-                                                +{{ number_format($income->amount, 2) }} €
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <div class="bg-blue-50 text-blue-700 px-4 py-3 rounded" role="alert">
-                            <strong class="font-bold">¡Sin ingresos!</strong>
-                            <span class="block sm:inline">Añade ingresos para verlos aquí.</span>
-                        </div>
-                    @endif
-                </div>
-                <!-- Gastos -->
-                <div class="bg-white shadow rounded-xl p-6">
-                    <h3 class="text-md font-semibold mb-2 text-red-500 flex items-center gap-2">
-                        <span class="material-icons text-red-400">trending_down</span> Gastos
-                    </h3>
-                    @if ($outcomes->isNotEmpty())
-                        <div class="mb-2 text-sm text-red-700">
-                            Total: -{{ number_format($outcomes->sum('amount'), 2) }} €
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="table-auto w-full">
-                                <thead>
-                                    <tr class="bg-red-50">
-                                        <th class="px-4 py-2">Categoría</th>
-                                        <th class="px-4 py-2">Fecha</th>
-                                        <th class="px-4 py-2">Monto</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($outcomes as $outcome)
-                                        <tr class="even:bg-red-50">
-                                            <td class="px-4 py-2">{{ $outcome->category }}</td>
-                                            <td class="px-4 py-2">
-                                                {{ \Carbon\Carbon::parse($outcome->date)->format('d/m/Y') }}</td>
-                                            <td class="px-4 py-2 text-red-600 font-semibold">
-                                                -{{ number_format($outcome->amount, 2) }} €
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <div class="bg-red-50 text-red-700 px-4 py-3 rounded" role="alert">
-                            <strong class="font-bold">¡Sin gastos!</strong>
-                            <span class="block sm:inline">Añade gastos para verlos aquí.</span>
-                        </div>
-                    @endif
-                </div>
+            {{-- MOVIMIENTOS RECIENTES GRÁFICO --}}
+            <div class="bg-white  rounded-xl p-6 col-span-2" style="height: 450px;">
+                <h3 class="text-md font-semibold text-gray-700 flex items-center">
+                    <span class="material-icons text-blue-400">bar_chart</span>
+                    Ingresos vs Gastos
+                </h3>
+                <canvas id="incomeOutcomeChart"></canvas>
             </div>
 
             {{-- SCRIPTS Y ANIMACIONES --}}
@@ -200,6 +124,82 @@
                             clearInterval(streakInterval);
                         }
                     }, 20);
+
+                    // Gráfico de Balance Acumulado
+                    const ctx = document.getElementById('incomeOutcomeChart').getContext('2d');
+                    const balanceChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: {!! json_encode($labels) !!},
+                            datasets: [{
+                                    label: 'Balance',
+                                    data: {!! json_encode($balanceData) !!},
+                                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                                    borderColor: 'rgba(37, 99, 235, 1)',
+                                    borderWidth: 2,
+                                    fill: true,
+                                    tension: 0.3,
+                                    pointRadius: 3
+                                },
+                                {
+                                    label: 'Ingresos Recurrentes',
+                                    data: {!! json_encode($recurrentIncomesData) !!},
+                                    borderColor: 'rgba(34, 197, 94, 1)',
+                                    backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                                    borderWidth: 2,
+                                    fill: false,
+                                    tension: 0.3,
+                                    pointRadius: 2
+                                },
+                                {
+                                    label: 'Ingresos No Recurrentes',
+                                    data: {!! json_encode($nonRecurrentIncomesData) !!},
+                                    borderColor: 'rgba(16, 185, 129, 1)',
+                                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                                    borderWidth: 2,
+                                    fill: false,
+                                    tension: 0.3,
+                                    pointRadius: 2
+                                },
+                                {
+                                    label: 'Gastos Recurrentes',
+                                    data: {!! json_encode($recurrentOutcomesData) !!},
+                                    borderColor: 'rgba(239, 68, 68, 1)',
+                                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                                    borderWidth: 2,
+                                    fill: false,
+                                    tension: 0.3,
+                                    pointRadius: 2
+                                },
+                                {
+                                    label: 'Gastos No Recurrentes',
+                                    data: {!! json_encode($nonRecurrentOutcomesData) !!},
+                                    borderColor: 'rgba(251, 113, 133, 1)',
+                                    backgroundColor: 'rgba(251, 113, 133, 0.2)',
+                                    borderWidth: 2,
+                                    fill: false,
+                                    tension: 0.3,
+                                    pointRadius: 2
+                                }
+                            ]
+
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+                                            ' €';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
                 });
             </script>
         </main>

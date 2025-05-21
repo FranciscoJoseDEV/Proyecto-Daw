@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -13,23 +14,66 @@ class UserController extends Controller
 {
 
 
+
     public function index()
     {
-        $user = Auth::user(); // Obtener el usuario autenticado
+        $user = Auth::user();
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
 
-        // Obtener los 3 ingresos más recientes del usuario
         $incomes = Income::where('user_id', $user->id)
-            ->orderBy('date', 'desc')
-            ->take(3)
+            ->whereDate('date', '>=', $startDate)
+            ->orderBy('date', 'asc')
             ->get();
 
-        // Obtener los 3 gastos más recientes del usuario
         $outcomes = Outcome::where('user_id', $user->id)
-            ->orderBy('date', 'desc')
-            ->take(3)
+            ->whereDate('date', '>=', $startDate)
+            ->orderBy('date', 'asc')
             ->get();
 
-        // Enviar los datos del usuario, ingresos y gastos a la vista
-        return view('dashboard', compact('user', 'incomes', 'outcomes'));
+        // Fechas únicas combinadas
+        $dates = $incomes->pluck('date')->merge($outcomes->pluck('date'))->unique()->sort();
+
+        $labels = [];
+        $balanceData = [];
+        $recurrentIncomesData = [];
+        $nonRecurrentIncomesData = [];
+        $recurrentOutcomesData = [];
+        $nonRecurrentOutcomesData = [];
+
+        $incomeSum = 0;
+        $outcomeSum = 0;
+
+        foreach ($dates as $date) {
+            $formattedDate = Carbon::parse($date)->format('d/m/Y');
+            $labels[] = $formattedDate;
+
+            $incomeRecurrent = $incomes->where('date', $date)->where('recurrent', 1)->sum('amount');
+            $incomeNonRecurrent = $incomes->where('date', $date)->where('recurrent', 0)->sum('amount');
+            $outcomeRecurrent = $outcomes->where('date', $date)->where('recurrent', 1)->sum('amount');
+            $outcomeNonRecurrent = $outcomes->where('date', $date)->where('recurrent', 0)->sum('amount');
+
+            $recurrentIncomesData[] = $incomeRecurrent;
+            $nonRecurrentIncomesData[] = $incomeNonRecurrent;
+            $recurrentOutcomesData[] = $outcomeRecurrent;
+            $nonRecurrentOutcomesData[] = $outcomeNonRecurrent;
+
+            $incomeSum += $incomeRecurrent + $incomeNonRecurrent;
+            $outcomeSum += $outcomeRecurrent + $outcomeNonRecurrent;
+            $balanceData[] = $incomeSum - $outcomeSum;
+        }
+
+        if (count($balanceData) > 0) {
+            $balanceData[count($balanceData) - 1] = $user->savings;
+        }
+
+        return view('dashboard', compact(
+            'user',
+            'labels',
+            'balanceData',
+            'recurrentIncomesData',
+            'nonRecurrentIncomesData',
+            'recurrentOutcomesData',
+            'nonRecurrentOutcomesData'
+        ));
     }
 }

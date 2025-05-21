@@ -5,6 +5,21 @@
         <main class="flex-1 p-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Lista de Ingresos</h1>
+                <div class="flex gap-2 mt-4 mb-6">
+                    <a href="{{ route('income.index', ['id' => Auth::user()->id]) }}"
+                        class="btn btn-success {{ request('filtro') === null ? 'active' : '' }}">
+                        Todos
+                    </a>
+                    <a href="{{ route('income.index', ['id' => Auth::user()->id, 'filtro' => 'recurrentes']) }}"
+                        class="btn btn-success {{ request('filtro') === 'recurrentes' ? 'active' : '' }}">
+                        Recurrentes
+                    </a>
+                    <a href="{{ route('income.index', ['id' => Auth::user()->id, 'filtro' => 'no_recurrentes']) }}"
+                        class="btn btn-success {{ request('filtro') === 'no_recurrentes' ? 'active' : '' }}">
+                        No recurrentes
+                    </a>
+                </div>
+
                 <!-- Botón para abrir la modal -->
                 <button type="button" class="btn btn-success flex items-center gap-2" data-bs-toggle="modal"
                     data-bs-target="#createIncomeModal">
@@ -21,7 +36,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         @foreach ($incomes as $income)
                             <div
-                                class="bg-white hover:shadow-lg transition-all p-5 rounded-xl flex flex-col gap-2 card-income">
+                                class="bg-white hover:shadow-lg transition-all p-3 rounded-xl flex flex-col gap-2 card-income">
                                 <div class="flex items-center justify-between mb-2">
                                     <h2 class="text-lg font-semibold text-green-700">{{ $income->category }}</h2>
                                     <span
@@ -73,7 +88,7 @@
                                 onchange="document.getElementById('otherIncomeCategoryInput').style.display = this.value === 'other' ? 'block' : 'none'">
                                 <option value="" disabled selected>Seleccione una categoría</option>
                                 <option value="Salario">Salario</option>
-                                <option value="Inversión">Inversión</option>
+                                <option value="Beca">Beca</option>
                                 <option value="Regalo">Regalo</option>
                                 <option value="Venta">Venta</option>
                                 <option value="other">Otra</option>
@@ -87,16 +102,29 @@
                             <input type="number" name="amount" min="0" id="incomeAmount" required step="0.01"
                                 min="0" class="form-control form-control-lg">
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label d-block">¿Es un ingreso recurrente?</label>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurrent" id="recurrentYes"
+                                    value="1" required>
+                                <label class="form-check-label" for="recurrentYes">Sí</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurrent" id="recurrentNo"
+                                    value="0" required>
+                                <label class="form-check-label" for="recurrentNo">No</label>
+                            </div>
+                        </div>
+
                         <div class="mb-3">
                             <label for="date" class="form-label">Fecha</label>
                             <input type="date" name="date" id="incomeDate" required
                                 class="form-control form-control-lg" value="{{ date('Y-m-d') }}">
                         </div>
-                        <div class="mb-3">
-                            <label for="type" class="form-label">Tipo</label>
-                            <input type="text" name="type" id="incomeType" required
-                                class="form-control form-control-lg">
-                        </div>
+
                         <div class="mb-3">
                             <label for="description" class="form-label">Descripción</label>
                             <input type="text" name="description" id="incomeDescription" required
@@ -104,7 +132,8 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-success px-4">Confirmar</button>
                     </div>
                 </form>

@@ -16,6 +16,7 @@ class Outcome extends Model
         'date',
         'description',
         'user_id',
+        'recurrent',
     ];
 
     protected $casts = [

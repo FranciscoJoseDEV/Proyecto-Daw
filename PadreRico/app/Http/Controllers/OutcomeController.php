@@ -7,14 +7,23 @@ use App\Models\Outcome;
 
 class OutcomeController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
-        $outcomes = Outcome::where('user_id', $id)
-            ->orderBy('date', 'desc') // Mostrar los más recientes primero
-            ->paginate(5);
+        $filtro = $request->input('filtro');
+
+        $query = Outcome::where('user_id', $id);
+
+        if ($filtro === 'recurrentes') {
+            $query->where('recurrent', 1);
+        } elseif ($filtro === 'no_recurrentes') {
+            $query->where('recurrent', 0);
+        }
+
+        $outcomes = $query->orderBy('date', 'desc')->paginate(9);
 
         return view('outcome.index', compact('outcomes'));
     }
+
     public function destroy($id, $idOut)
     {
         $outcomes = Outcome::findOrFail($idOut);
@@ -33,6 +42,7 @@ class OutcomeController extends Controller
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric',
             'date' => 'required|date',
+            'recurrent' => 'nullable|int|digits_between:0,1',
         ]);
 
         Outcome::create([
@@ -41,6 +51,7 @@ class OutcomeController extends Controller
             'date' => $request->input('date'),
             'description' => $request->input('description'),
             'user_id' => $id,
+            'recurrent' => $request->input('recurrent'),
         ]);
 
         return redirect()->route('outcome.index', ['id' => $id])->with('success', 'Outcome created successfully.');

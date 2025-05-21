@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('user/{id}/income/create', [IncomeController::class, 'create'])->name('income.create');
     Route::post('user/{id}/income/store', [IncomeController::class, 'store'])->name('income.store');
 
+
     //Outcome routes
     Route::get('user/{id}/outcome', [OutcomeController::class, 'index'])->name('outcome.index');
     Route::get('user/{id}/outcome/create', [OutcomeController::class, 'create'])->name('outcome.create');

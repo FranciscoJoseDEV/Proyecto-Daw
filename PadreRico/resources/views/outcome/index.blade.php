@@ -5,6 +5,21 @@
         <main class="flex-1 bg-gray-100 p-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Lista de Gastos</h1>
+                <div class="flex gap-2 mt-4 mb-6">
+                    <a href="{{ route('outcome.index', ['id' => Auth::user()->id]) }}"
+                        class="btn btn-outline-danger {{ request('filtro') === null ? 'active' : '' }}">
+                        Todos
+                    </a>
+                    <a href="{{ route('outcome.index', ['id' => Auth::user()->id, 'filtro' => 'recurrentes']) }}"
+                        class="btn btn-outline-danger {{ request('filtro') === 'recurrentes' ? 'active' : '' }}">
+                        Recurrentes
+                    </a>
+                    <a href="{{ route('outcome.index', ['id' => Auth::user()->id, 'filtro' => 'no_recurrentes']) }}"
+                        class="btn btn-outline-danger {{ request('filtro') === 'no_recurrentes' ? 'active' : '' }}">
+                        No recurrentes
+                    </a>
+                </div>
+
                 <!-- Botón para abrir el modal -->
                 <button type="button" class="btn btn-danger flex items-center gap-2" data-bs-toggle="modal"
                     data-bs-target="#createOutcomeModal">
@@ -22,7 +37,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         @foreach ($outcomes as $outcome)
                             <div
-                                class="bg-white  hover:shadow-lg transition-all p-5 rounded-xl flex flex-col gap-2 card-outcome">
+                                class="bg-white  hover:shadow-lg transition-all p-3 rounded-xl flex flex-col gap-2 card-outcome">
                                 <div class="flex items-center justify-between mb-2">
                                     <h2 class="text-lg font-semibold text-red-700">{{ $outcome->category }}</h2>
                                     <span
@@ -37,7 +52,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-outline-danger flex items-center gap-1">
                                         <span class="material-icons">delete</span>
-                                      
+
                                     </button>
                                 </form>
                             </div>
@@ -71,10 +86,12 @@
                                 onchange="document.getElementById('otherCategoryInput').style.display = this.value === 'Other' ? 'block' : 'none'">
                                 <option value="" disabled selected>Seleccione una categoría</option>
                                 <option value="Alimentación">Alimentación</option>
+                                <option value="Vivienda">Vivienda</option>
                                 <option value="Transporte">Transporte</option>
                                 <option value="Entretenimiento">Entretenimiento</option>
                                 <option value="Educación">Educación</option>
                                 <option value="Salud">Salud</option>
+                                <option value="Ropa">Ropa</option>
                                 <option value="Other">Otra</option>
                             </select>
                             <input type="text" name="other_category" id="otherCategoryInput"
@@ -82,21 +99,39 @@
                                 style="display:none;">
                         </div>
                         <div class="mb-3">
+                            <label class="form-label d-block">¿Es un gasto recurrente?</label>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurrent" id="recurrentYes"
+                                    value="1" required>
+                                <label class="form-check-label" for="recurrentYes">Sí</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurrent" id="recurrentNo"
+                                    value="0" required>
+                                <label class="form-check-label" for="recurrentNo">No</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
                             <label for="amount" class="form-label">Monto</label>
-                            <input type="number" name="amount" min="0" id="amount" required step="0.01" class="form-control form-control-lg">
+                            <input type="number" name="amount" min="0" id="amount" required step="0.01"
+                                class="form-control form-control-lg">
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Fecha</label>
-                            <input type="date" name="date" id="date" required class="form-control form-control-lg"
-                                value="{{ date('Y-m-d') }}">
+                            <input type="date" name="date" id="date" required
+                                class="form-control form-control-lg" value="{{ date('Y-m-d') }}">
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Descripción</label>
-                            <input type="text" name="description" id="description" required class="form-control form-control-lg">
+                            <input type="text" name="description" id="description" required
+                                class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-danger px-4">Confirmar</button>
                     </div>
                 </form>
