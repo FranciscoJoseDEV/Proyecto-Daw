@@ -47,9 +47,9 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         switch ($user->rol) {
-            case '0': // Administradores
+            case 0: // Administradores
                 return redirect()->intended(route('admin.dashboard', absolute: false));
-            case '1': // Usuarios
+            case 1: // Usuarios
                 return redirect()->intended(route('user.dashboard', absolute: false));
             default:
                 return redirect('/');

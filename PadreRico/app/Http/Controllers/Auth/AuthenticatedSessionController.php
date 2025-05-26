@@ -29,12 +29,10 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
-        $authUserRol = Auth::user()->role;
+        $authUserRol = User::where('email', $request->email)->value('role');
 
-        $user = Auth::user();
-        if (!($user instanceof User)) {
-            $user = User::find($user->id);
-        }
+        $user = User::find(Auth::id());
+        
 
         $today = Carbon::today();
         $lastLogin = $user->last_login_date ? Carbon::parse($user->last_login_date) : null;
