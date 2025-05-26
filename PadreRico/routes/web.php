@@ -12,6 +12,7 @@ use App\Http\Controllers\DefaulterController;
 use App\Http\Controllers\DefaultorController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\SavingsObjectiveController;
+use App\Http\Controllers\ContactoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::view('/cookies', 'cookies')->name('cookies');
+    Route::view('/sobre-nosotros', 'sobre-nosotros')->name('sobre-nosotros');
+    Route::view('/contacto', 'contacto')->name('contacto');
+    Route::post('/contacto/enviar', [ContactoController::class, 'enviar'])->name('contacto.enviar');
 });
 
 // Rutas para administradores

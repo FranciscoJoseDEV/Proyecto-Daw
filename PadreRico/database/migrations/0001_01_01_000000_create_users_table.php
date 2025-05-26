@@ -53,6 +53,11 @@ return new class extends Migration
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('verification_code', 6)->nullable();
+            $table->timestamp('verification_code_expires_at')->nullable();
+        });
     }
 
     /**
