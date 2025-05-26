@@ -37,11 +37,18 @@
                 </a>
             </li>
 
-             <li class="mb-4">
+            <li class="mb-4">
                 <a href="{{ route('savingsobj.index', ['id' => Auth::user()->id]) }}"
                     class="flex items-center p-2 rounded hover:bg-gray-700">
                     <span class="material-icons mr-2">track_changes</span>
                     <span x-show="open" class="transition-opacity duration-300">&nbsp;Objetivos</span>
+                </a>
+            </li>
+            <li class="mb-4">
+                <a href="{{ route('achievements.index', ['id' => Auth::user()->id]) }}"
+                    class="flex items-center p-2 rounded hover:bg-gray-700">
+                    <span class="material-icons mr-2">military_tech</span>
+                    <span x-show="open" class="transition-opacity duration-300">&nbsp;Logros</span>
                 </a>
             </li>
 
@@ -103,7 +110,16 @@
                 </ul>
             </li>
 
-           
+            {{-- Opción solo para admin --}}
+            @if (Auth::user()->role == 0)
+                <li class="mb-4">
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center p-2 rounded hover:bg-gray-700">
+                        <span class="material-icons mr-2">admin_panel_settings</span>
+                        <span x-show="open" class="transition-opacity duration-300">&nbsp;Administración</span>
+                    </a>
+                </li>
+            @endif
+
         </ul>
     </nav>
 </aside>

@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
         $startDate = Carbon::now()->subDays(30)->startOfDay();
 
         $incomes = Income::where('user_id', $user->id)
@@ -64,6 +64,26 @@ class UserController extends Controller
 
         if (count($balanceData) > 0) {
             $balanceData[count($balanceData) - 1] = $user->savings;
+        }
+
+        // Lógica para logros de ahorro
+        $ahorroLogros = [
+            100 => 'Ahorro inicial',
+            500 => 'Ahorrador constante',
+            1000 => 'Meta de 1000 €',
+            2500 => 'Ahorrador experto',
+            5000 => 'Ahorro épico',
+        ];
+
+        foreach ($ahorroLogros as $cantidad => $nombreLogro) {
+            $logro = \App\Models\Achievement::where('name', $nombreLogro)->first();
+            if ($logro && $user->savings >= $cantidad && !$user->achievements->contains($logro->id)) {
+                $user->achievements()->attach($logro->id, [
+                    'achieve_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
         return view('dashboard', compact(

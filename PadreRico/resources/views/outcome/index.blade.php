@@ -45,6 +45,7 @@
                                 </div>
                                 <p class="text-2xl font-bold text-red-600 mb-2">${{ number_format($outcome->amount, 2) }}
                                 </p>
+                                <p class="text-gray-600 mb-2">{{ $outcome->description }}</p>
                                 <form
                                     action="{{ route('outcome.destroy', ['id' => Auth::user()->id, 'idOut' => $outcome->id]) }}"
                                     method="POST" class="mt-auto flex justify-end">

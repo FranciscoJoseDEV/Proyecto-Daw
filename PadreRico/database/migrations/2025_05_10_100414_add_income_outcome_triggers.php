@@ -16,9 +16,11 @@ return new class extends Migration
             AFTER INSERT ON income
             FOR EACH ROW
             BEGIN
-                UPDATE users
-                SET savings = savings + NEW.amount
-                WHERE id = NEW.user_id;
+                IF NEW.recurrent = 0 THEN
+                    UPDATE users
+                    SET savings = savings + NEW.amount
+                    WHERE id = NEW.user_id;
+                END IF;
             END
         ');
 
@@ -28,9 +30,11 @@ return new class extends Migration
             AFTER DELETE ON income
             FOR EACH ROW
             BEGIN
-                UPDATE users
-                SET savings = savings - OLD.amount
-                WHERE id = OLD.user_id;
+                IF OLD.recurrent = 0 THEN
+                    UPDATE users
+                    SET savings = savings - OLD.amount
+                    WHERE id = OLD.user_id;
+                END IF;
             END
         ');
 
@@ -40,18 +44,20 @@ return new class extends Migration
             AFTER UPDATE ON income
             FOR EACH ROW
             BEGIN
-                IF OLD.user_id != NEW.user_id THEN
-                    UPDATE users
-                    SET savings = savings - OLD.amount
-                    WHERE id = OLD.user_id;
+                IF OLD.recurrent = 0 AND NEW.recurrent = 0 THEN
+                    IF OLD.user_id != NEW.user_id THEN
+                        UPDATE users
+                        SET savings = savings - OLD.amount
+                        WHERE id = OLD.user_id;
 
-                    UPDATE users
-                    SET savings = savings + NEW.amount
-                    WHERE id = NEW.user_id;
-                ELSE
-                    UPDATE users
-                    SET savings = savings - OLD.amount + NEW.amount
-                    WHERE id = NEW.user_id;
+                        UPDATE users
+                        SET savings = savings + NEW.amount
+                        WHERE id = NEW.user_id;
+                    ELSE
+                        UPDATE users
+                        SET savings = savings - OLD.amount + NEW.amount
+                        WHERE id = NEW.user_id;
+                    END IF;
                 END IF;
             END
         ');
@@ -62,9 +68,11 @@ return new class extends Migration
             AFTER INSERT ON outcome
             FOR EACH ROW
             BEGIN
-                UPDATE users
-                SET savings = savings - NEW.amount
-                WHERE id = NEW.user_id;
+                IF NEW.recurrent = 0 THEN
+                    UPDATE users
+                    SET savings = savings - NEW.amount
+                    WHERE id = NEW.user_id;
+                END IF;
             END
         ');
 
@@ -74,9 +82,11 @@ return new class extends Migration
             AFTER DELETE ON outcome
             FOR EACH ROW
             BEGIN
-                UPDATE users
-                SET savings = savings + OLD.amount
-                WHERE id = OLD.user_id;
+                IF OLD.recurrent = 0 THEN
+                    UPDATE users
+                    SET savings = savings + OLD.amount
+                    WHERE id = OLD.user_id;
+                END IF;
             END
         ');
 
@@ -86,19 +96,50 @@ return new class extends Migration
             AFTER UPDATE ON outcome
             FOR EACH ROW
             BEGIN
-                IF OLD.user_id != NEW.user_id THEN
-                    UPDATE users
-                    SET savings = savings + OLD.amount
-                    WHERE id = OLD.user_id;
+                IF OLD.recurrent = 0 AND NEW.recurrent = 0 THEN
+                    IF OLD.user_id != NEW.user_id THEN
+                        UPDATE users
+                        SET savings = savings + OLD.amount
+                        WHERE id = OLD.user_id;
 
-                    UPDATE users
-                    SET savings = savings - NEW.amount
-                    WHERE id = NEW.user_id;
-                ELSE
-                    UPDATE users
-                    SET savings = savings + OLD.amount - NEW.amount
-                    WHERE id = NEW.user_id;
+                        UPDATE users
+                        SET savings = savings - NEW.amount
+                        WHERE id = NEW.user_id;
+                    ELSE
+                        UPDATE users
+                        SET savings = savings + OLD.amount - NEW.amount
+                        WHERE id = NEW.user_id;
+                    END IF;
                 END IF;
+            END
+        ');
+
+        // EVENTO: aplicar ingresos/gastos recurrentes cada mes
+        DB::unprepared('
+            CREATE EVENT IF NOT EXISTS apply_monthly_recurrents
+            ON SCHEDULE EVERY 1 MONTH
+            STARTS (TIMESTAMP(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL DAY(CURRENT_DATE) DAY)
+            DO
+            BEGIN
+                -- Aplicar ingresos recurrentes
+                UPDATE users u
+                JOIN (
+                    SELECT user_id, SUM(amount) AS total_income
+                    FROM income
+                    WHERE recurrent = 1
+                    GROUP BY user_id
+                ) i ON u.id = i.user_id
+                SET u.savings = u.savings + i.total_income;
+
+                -- Aplicar gastos recurrentes
+                UPDATE users u
+                JOIN (
+                    SELECT user_id, SUM(amount) AS total_outcome
+                    FROM outcome
+                    WHERE recurrent = 1
+                    GROUP BY user_id
+                ) o ON u.id = o.user_id
+                SET u.savings = u.savings - o.total_outcome;
             END
         ');
     }
@@ -115,5 +156,7 @@ return new class extends Migration
         DB::statement('DROP TRIGGER IF EXISTS after_insert_outcome');
         DB::statement('DROP TRIGGER IF EXISTS after_delete_outcome');
         DB::statement('DROP TRIGGER IF EXISTS after_update_outcome');
+
+        DB::unprepared('DROP EVENT IF EXISTS apply_monthly_recurrents');
     }
 };

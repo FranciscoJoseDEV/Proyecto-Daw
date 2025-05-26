@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AchivementsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
@@ -31,6 +32,11 @@ Route::middleware('auth')->group(function () {
 // Rutas para administradores
 Route::middleware(['auth', 'verified', RoleManager::class . ':admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // CRUD de usuarios (para las modales del dashboard)
+    Route::post('/admin/users', [AdminController::class, 'store'])->name('users.store');
+    Route::put('/admin/users/{user}', [AdminController::class, 'update'])->name('users.update');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
 });
 
 // Rutas para usuarios
@@ -68,6 +74,9 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('user/{id}/savings/create', [SavingsObjectiveController::class, 'create'])->name('savingsobj.create');
     Route::post('user/{id}/savings/store', [SavingsObjectiveController::class, 'store'])->name('savingsobj.store');
     Route::put('/savings_objective/{id}', [SavingsObjectiveController::class, 'update'])->name('savingsobj.update');
+
+    //Achievements routes
+    Route::get('user/{id}/achievements', [AchivementsController::class, 'index'])->name('achievements.index');
 });
 
 require __DIR__ . '/auth.php';

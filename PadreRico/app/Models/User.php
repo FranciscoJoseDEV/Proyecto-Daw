@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -51,6 +52,18 @@ class User extends Authenticatable
         ];
     }
 
-    
-    
+    public function achievements()
+    {
+        return $this->belongsToMany(Achievement::class);
+    }
+
+    public function income()
+    {
+        return $this->hasMany(Income::class);
+    }
+
+    public function outcome()
+    {
+        return $this->hasMany(Outcome::class);
+    }
 }

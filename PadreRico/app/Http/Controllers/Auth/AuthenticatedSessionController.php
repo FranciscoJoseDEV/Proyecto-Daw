@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Achievement;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -26,20 +28,19 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
         $authUserRol = Auth::user()->role;
 
         $user = Auth::user();
-        if (!($user instanceof \App\Models\User)) {
-            $user = \App\Models\User::find($user->id);
+        if (!($user instanceof User)) {
+            $user = User::find($user->id);
         }
+
         $today = Carbon::today();
         $lastLogin = $user->last_login_date ? Carbon::parse($user->last_login_date) : null;
 
         if ($lastLogin) {
             $diff = $lastLogin->diffInDays($today);
-
             if ($diff === 1) {
                 $user->streak_count += 1;
             } elseif ($diff > 1) {
@@ -53,6 +54,26 @@ class AuthenticatedSessionController extends Controller
         $user->last_login_date = $today->toDateString();
         $user->save();
 
+        $logrosRacha = [
+            1 => '¡Primer día!',
+            7 => 'Racha de 7 días',
+            14 => 'Racha de 14 días',
+            30 => 'Racha de 30 días',
+            100 => 'Racha legendaria',
+        ];
+
+        foreach ($logrosRacha as $dias => $nombreLogro) {
+            $logro = Achievement::where('name', $nombreLogro)->first();
+            if ($logro && $user->streak_count >= $dias && !$user->achievements->contains($logro->id)) {
+                $user->achievements()->attach($logro->id, [
+                    'achieve_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        // Redirección según rol
         switch ($authUserRol) {
             case 0:
                 return redirect()->intended(route('admin.dashboard', absolute: false));
@@ -62,6 +83,7 @@ class AuthenticatedSessionController extends Controller
                 return redirect('/');
         }
     }
+
 
     /**
      * Destroy an authenticated session.

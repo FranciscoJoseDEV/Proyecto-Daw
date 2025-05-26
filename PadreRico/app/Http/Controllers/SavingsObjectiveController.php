@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\SavingsObjective;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Achievement;
+use App\Models\User;
 
 class SavingsObjectiveController extends Controller
 {
@@ -77,9 +79,10 @@ class SavingsObjectiveController extends Controller
     {
         // Elimina el objetivo anterior si existe
         $existing = SavingsObjective::where('user_id', $id)->first();
+        $user = User::find($id);
+
         if ($existing) {
             // Buscar usuario y sumar 1 a num_obj_completed
-            $user = $existing->user;
             if ($user) {
                 $user->num_obj_completed = ($user->num_obj_completed ?? 0) + 1;
                 $user->save();
@@ -95,6 +98,59 @@ class SavingsObjectiveController extends Controller
         $objective->date_limit = $request->date_limit;
         $objective->status = 'en progreso';
         $objective->save();
+
+        // Lógica de logros de objetivos de ahorro
+        if ($user) {
+            // 1. Meta alcanzada (primer objetivo completado)
+            $metaAlcanzada = Achievement::where('name', 'Meta alcanzada')->first();
+            if ($metaAlcanzada && $user->num_obj_completed == 1 && !$user->achievements->contains($metaAlcanzada->id)) {
+                $user->achievements()->attach($metaAlcanzada->id, [
+                    'achieve_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // 2. Disciplina financiera (3 objetivos completados)
+            $disciplina = Achievement::where('name', 'Disciplina financiera')->first();
+            if ($disciplina && $user->num_obj_completed >= 3 && !$user->achievements->contains($disciplina->id)) {
+                $user->achievements()->attach($disciplina->id, [
+                    'achieve_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // 3. Enfocado en el futuro (objetivo de al menos 1000 €)
+            $enfocado = Achievement::where('name', 'Enfocado en el futuro')->first();
+            if ($enfocado && $request->goal_amount >= 1000 && !$user->achievements->contains($enfocado->id)) {
+                $user->achievements()->attach($enfocado->id, [
+                    'achieve_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // 4. Ahorro consistente (5 objetivos completados)
+            $consistente = Achievement::where('name', 'Ahorro consistente')->first();
+            if ($consistente && $user->num_obj_completed >= 5 && !$user->achievements->contains($consistente->id)) {
+                $user->achievements()->attach($consistente->id, [
+                    'achieve_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // 5. Maestro del ahorro (10 objetivos completados)
+            $maestro = Achievement::where('name', 'Maestro del ahorro')->first();
+            if ($maestro && $user->num_obj_completed >= 10 && !$user->achievements->contains($maestro->id)) {
+                $user->achievements()->attach($maestro->id, [
+                    'achieve_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
 
         return redirect()->route('savingsobj.index', $id)
             ->with('success', '¡Nuevo objetivo de ahorro creado correctamente!');

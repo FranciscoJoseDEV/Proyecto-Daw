@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -14,7 +15,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        // Cambia all() por paginate(10) para mostrar 10 usuarios por página
+        $users = User::paginate(10);
         return view('admin.dashboard', compact('users'));
     }
 
@@ -36,29 +38,28 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        // Code to store a new resource
-    }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'role' => 'required|integer',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        // Code to display a specific resource
-    }
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = $request->role;
+        $user->savings = 0;
+        $user->img = null;
+        $user->last_login_date = null;
+        $user->num_obj_completed = 0;
+        $user->streak_count = 0;
+        $user->remember_token = null;
+        $user->email_verified_at = now();
+        $user->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        // Code to show form for editing a resource
+        return redirect()->route('admin.dashboard')->with('success', 'Usuario creado correctamente.');
     }
 
     /**
@@ -70,7 +71,26 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Code to update a specific resource
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|integer',
+            'password' => 'nullable|string|min:6',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Usuario actualizado correctamente.');
     }
 
     /**
@@ -81,6 +101,9 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        // Code to delete a specific resource
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Usuario eliminado correctamente.');
     }
 }

@@ -6,30 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('achivements', function (Blueprint $table) {
+        Schema::create('achievements', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('name')->unique();
-            $table->string('description')->unique();
-            $table->string('points')->unique();
-            $table->string('condition')->unique();
+            $table->string('description');
+            $table->integer('points')->default(0); // Puntos por el logro
+            $table->string('condition')->nullable(); // Ejemplo: 'streak:5'
+        });
 
-            $table->unsignedBigInteger('user_id'); // Clave foránea
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        // Tabla pivote para logros desbloqueados por usuarios
+        Schema::create('achievement_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('achievement_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('achieve_date'); 
+            
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('achivements');
+        Schema::dropIfExists('achievement_user');
+        Schema::dropIfExists('achievements');
     }
 };
