@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -31,7 +32,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -39,20 +40,26 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'rol'=> 1,
+            'rol' => 1,
         ]);
+
+        // Generar y guardar código
+        $code = rand(100000, 999999);
+        $user->verification_code = $code;
+        $user->verification_code_expires_at = now()->addMinutes(10);
+        $user->save();
+
+        // Enviar código por email
+        Mail::raw("Tu código de verificación es: $code", function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Código de verificación');
+        });
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        switch ($user->rol) {
-            case 0: // Administradores
-                return redirect()->intended(route('admin.dashboard', absolute: false));
-            case 1: // Usuarios
-                return redirect()->intended(route('user.dashboard', absolute: false));
-            default:
-                return redirect('/');
-        }
+        // Redirige a la vista que pide verificar el email
+        return redirect()->route('verification.notice');
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\DefaultorController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\SavingsObjectiveController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\Auth\VerificationCodeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -84,5 +85,8 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     //Achievements routes
     Route::get('user/{id}/achievements', [AchivementsController::class, 'index'])->name('achievements.index');
 });
+
+Route::post('/verify-code', [VerificationCodeController::class, 'verify'])->name('verification.code');
+Route::post('/resend-code', [VerificationCodeController::class, 'resend'])->name('verification.resend');
 
 require __DIR__ . '/auth.php';
