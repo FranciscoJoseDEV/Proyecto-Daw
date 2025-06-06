@@ -45,7 +45,6 @@
             <h2 class="text-2xl font-semibold mb-4 text-csprimary">Información de contacto</h2>
             <ul class="mb-4 text-gray-700">
                 <li><strong>Email:</strong> franciscojosesanchezlloret@gmail.com</li>
-                <li><strong>Teléfono:</strong> +34 680 970 259</li>
                 <li><strong>Centro:</strong> IES Mar de Cádiz, Av. de la Constitución, 11540 El Puerto de Santa María, Cádiz
                 </li>
             </ul>

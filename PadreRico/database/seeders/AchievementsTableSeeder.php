@@ -148,12 +148,6 @@ class AchievementsTableSeeder extends Seeder
                 'condition' => 'goal:3',
             ],
             [
-                'name' => 'Enfocado en el futuro',
-                'description' => 'Completa un objetivo de al menos 1000 €.',
-                'points' => 35,
-                'condition' => 'goal:1000',
-            ],
-            [
                 'name' => 'Ahorro consistente',
                 'description' => 'Cumple 5 metas de ahorro.',
                 'points' => 50,

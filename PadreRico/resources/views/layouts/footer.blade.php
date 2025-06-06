@@ -1,9 +1,13 @@
 {{-- filepath: c:\Users\frand\Documents\Proyecto Daw\PadreRico\resources\views\layouts\footer.blade.php --}}
-<footer
-    class="bg-cssecondary text-black py-4 flex flex-col md:flex-row justify-between items-center w-full px-4 border-t border-gray-300"
-    role="contentinfo" aria-label="Pie de página">
-    <p class="text-sm mb-2 md:mb-0">© {{ date('Y') }} Tu Padre Rico. Todos los derechos reservados.</p>
-    <div class="flex flex-wrap gap-4">
+<footer x-data="{ open: false }"
+    class="bg-cssecondary text-black py-4 flex flex-col md:flex-row items-center w-full px-4 border-t border-gray-300 transition-all duration-300"
+    role="contentinfo" aria-label="Pie de página" @mouseenter="open = true" @mouseleave="open = false">
+    <div class="flex items-center justify-center gap-2 w-full">
+        <p class="text-sm mb-2 md:mb-0 text-center w-full">© 2025 Tu Padre Rico. Todos los derechos reservados.</p>
+    </div>
+    <div class="flex flex-wrap gap-4 overflow-hidden transition-all duration-300 w-full justify-center"
+        :class="{ 'max-h-40 opacity-100 mt-2': open, 'max-h-0 opacity-0 mt-0': !open }"
+        style="transition-property: max-height, opacity, margin-top;">
         <a href="{{ route('cookies') }}"
             class="flex items-center hover:underline focus:outline-none focus:ring-2 focus:ring-csprimary"
             aria-label="Política de cookies">

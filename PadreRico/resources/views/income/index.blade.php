@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <div class="flex min-h-screen bg-gray-100">
+    <div class="flex min-h-screen">
         <!-- Main content -->
-        <main class="flex-1 p-6">
+        <div class="flex flex-col w-full p-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Lista de Ingresos</h1>
                 <div class="flex gap-2 mt-4 mb-6">
@@ -66,7 +66,7 @@
                     </div>
                 @endif
             </div>
-        </main>
+        </div>
     </div>
 
     <!-- Modal de crear ingreso -->

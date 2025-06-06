@@ -60,9 +60,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-4">
-                        <span class="font-semibold">Estado:</span>
-                    </p>
+                    
                     <div class="mb-4">
                         <div class="progress bg-csdetails" style="height: 28px;">
                             <div class="progress-bar bg-{{ $progressColor }} d-flex align-items-center justify-content-center"

@@ -19,5 +19,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Llama al seeder de logros
+        $this->call(AchievementsTableSeeder::class);
     }
 }

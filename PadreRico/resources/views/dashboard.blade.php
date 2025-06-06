@@ -44,12 +44,12 @@
                 </div>
             </div>
             {{-- MOVIMIENTOS RECIENTES GRÁFICO --}}
-            <div class="bg-white  rounded-xl p-6 col-span-2" style="height: 450px;">
-                <h3 class="text-md font-semibold text-gray-700 flex items-center">
-                    <span class="material-icons text-blue-400">bar_chart</span>
+            <div class="bg-white rounded-xl p-6 col-span-2 relative" style="height: 550px;">
+                <h3 class="text-md font-semibold flex items-center">
+                    <span class="material-icons">bar_chart</span>
                     Ingresos vs Gastos
                 </h3>
-                <canvas id="incomeOutcomeChart"></canvas>
+                <canvas id="incomeOutcomeChart" height="400" style="width:100%;display:block;"></canvas>
             </div>
 
             {{-- SCRIPTS Y ANIMACIONES --}}
@@ -193,7 +193,7 @@
                                     ticks: {
                                         callback: function(value) {
                                             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                            ' €';
+                                                ' €';
                                         }
                                     }
                                 }
@@ -204,4 +204,13 @@
             </script>
         </main>
     </div>
+
+    <style>
+        #incomeOutcomeChart {
+            width: 100% !important;
+            display: block;
+            max-width: 100%;
+            height: 450px !important;
+        }
+    </style>
 @endsection

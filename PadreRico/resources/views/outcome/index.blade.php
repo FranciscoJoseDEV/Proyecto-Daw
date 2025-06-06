@@ -2,7 +2,7 @@
 @section('content')
     <div x-data="{ open: false }" class="flex h-screen">
         <!-- Main content -->
-        <main class="flex-1 bg-gray-100 p-6">
+        <main class="flex-1 p-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Lista de Gastos</h1>
                 <div class="flex gap-2 mt-4 mb-6">
