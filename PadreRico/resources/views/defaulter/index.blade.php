@@ -2,29 +2,46 @@
 
 @section('content')
     <div class="container py-5">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">Personas que me deben dinero</h2>
-            <!-- Botón para abrir el modal -->
-            <button type="button" class="btn btn-outline-primary mt-3" data-bs-toggle="modal"
+        <div class="d-flex flex-column align-items-center mb-5">
+            <h2 class="fw-bold mb-3">Personas que te deben dinero</h2>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                 data-bs-target="#createDefaulterModal">
                 <i class="bi bi-plus-circle me-1"></i> Agregar Deudor
             </button>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center g-4">
             @forelse ($defaulters as $defaulter)
-                <div class="col-xl-3 col-lg-4 col-md-6 mb-4 d-flex">
-                    <div class="card shadow-sm w-100 border-0">
+                <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="card shadow-sm w-100 border-0 h-100">
                         <img src="{{ $defaulter->debtor->img ? asset('storage/' . $defaulter->debtor->img) : asset('imgs/9187604.png') }}"
-                            class="card-img-top p-3" style="height: 250px; object-fit: contain; border-radius: 1rem;"
+                            class="card-img-top rounded-circle mx-auto mt-3"
+                            style="height: 120px; width: 120px; object-fit: cover; border-radius: 50%;"
                             alt="{{ $defaulter->debtor->name }}">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-semibold">{{ $defaulter->debtor->name }}</h5>
                             <p class="card-text fs-5 text-muted">{{ number_format($defaulter->amount, 2) }}€</p>
-                            <a href="{{ route('defaulter.show', ['id' => Auth::user()->id, 'idDef' => $defaulter->id]) }}"
-                                class="btn btn-primary mt-2">
-                                Ver detalles
-                            </a>
+                            {{-- Estado de la deuda --}}
+                            @if ($defaulter->accepted == 0)
+                                <span class="badge bg-warning text-dark mb-3 px-3 py-2">Pendiente de aceptar</span>
+                            @elseif ($defaulter->accepted == 1)
+                                <span class="badge bg-success mb-3 px-3 py-2">Aceptada</span>
+                            @elseif ($defaulter->accepted == 2)
+                                <span class="badge bg-danger mb-3 px-3 py-2">Cancelada</span>
+                            @endif
+                            <div class="d-flex justify-content-center gap-2 mt-2">
+                                <a href="{{ route('defaulter.show', ['id' => Auth::user()->id, 'idDef' => $defaulter->id]) }}"
+                                    class="btn btn-primary">
+                                    Ver detalles
+                                </a>
+                                <form action="{{ route('defaulter.destroy', ['id' => Auth::user()->id, 'idDef' => $defaulter->id]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este deudor?')">
+                                        <span class="material-icons align-middle">delete</span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -35,7 +52,7 @@
             @endforelse
         </div>
 
-        <div class="d-flex justify-content-center mt-4">
+        <div class="d-flex justify-content-center my-5">
             {{ $defaulters->links() }}
         </div>
     </div>

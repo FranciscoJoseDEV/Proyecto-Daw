@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2); 
             $table->date('inicial_date');
             $table->date('due_date'); 
+            $table->integer('accepted')->default(0); // 0: No aceptado, 1: Aceptado
             $table->timestamps();
 
             // Relación con la tabla users (deudor)

@@ -125,22 +125,25 @@
     <!-- Navigation -->
     @include('layouts.navigation')
 
+    <!-- Botones centrados fuera del contenido principal -->
+    <div class="w-full flex justify-center mt-4">
+        <div class="flex space-x-4 gap-4">
+            <a href="{{ route('login') }}"
+                class="px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-gray-700">
+                {{ __('Login') }}
+            </a>
+            <a href="{{ route('register') }}"
+                class="px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-gray-700">
+                {{ __('Registro') }}
+            </a>
+        </div>
+    </div>
     <!-- Main Content -->
     <main class="flex-grow">
-        <div class="container mx-auto flex flex-col lg:flex-row gap-8 justify-center items-stretch py-12">
+        <div class="container mx-auto flex flex-col lg:flex-row gap-8 justify-center items-stretch py-2 ">
             <!-- Hero Section -->
             <section
                 class="hero-section flex flex-col items-center justify-center bg-primary p-8 text-center w-full lg:w-1/2">
-                <div class="mt-4 flex space-x-4 gap-4">
-                    <a href="{{ route('login') }}"
-                        class="px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-gray-700">
-                        {{ __('Login') }}
-                    </a>
-                    <a href="{{ route('register') }}"
-                        class="px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-gray-700">
-                        {{ __('Registro') }}
-                    </a>
-                </div>
                 <div class="space-y-6">
                     <h1>Gestiona tus Finanzas Inteligentemente</h1>
                     <p class="text-lg md:text-xl text-gray-800 text-justify">

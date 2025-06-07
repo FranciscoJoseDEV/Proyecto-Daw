@@ -87,9 +87,10 @@
                 @endisset
 
                 @yield('content')
+                @include('layouts.ia')
             </main>
         </div>
-
+        
         <!-- Footer -->
         @include('layouts.footer')
     </div>

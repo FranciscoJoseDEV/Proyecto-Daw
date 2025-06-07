@@ -14,6 +14,7 @@ use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\SavingsObjectiveController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\Auth\VerificationCodeController;
+use App\Http\Controllers\ChatbotController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -71,6 +72,7 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     Route::get('user/{id}/defaulter/{idDef}/show', [DefaulterController::class, 'show'])->name('defaulter.show');
 
     Route::get('user/{id}/mydebts', [DefaultorController::class, 'index'])->name('defaultors.index');
+    Route::post('/defaultors/{id}/accept/{debt}', [DefaultorController::class, 'accept'])->name('defaultors.accept');
 
     //Statistics routes
     Route::get('user/{id}/statistics/monthly', [StatisticsController::class, 'index_monthly'])->name('statistics.index_monthly');
@@ -85,6 +87,7 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     //Achievements routes
     Route::get('user/{id}/achievements', [AchivementsController::class, 'index'])->name('achievements.index');
 });
+Route::post('/api/chatbot', [ChatBotController::class, 'ask']);
 
 Route::post('/verify-code', [VerificationCodeController::class, 'verify'])->name('verification.code');
 Route::post('/resend-code', [VerificationCodeController::class, 'resend'])->name('verification.resend');

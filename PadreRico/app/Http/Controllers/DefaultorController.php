@@ -16,11 +16,26 @@ class DefaultorController extends Controller
         return view('defaultors.index', compact('debts'));
     }
 
-
-
-
     public function show($id, $defaultorId)
     {
         return view('defaultors.show', compact('id', 'defaultorId'));
+    }
+
+  
+
+    public function accept(Request $request, $id, $debtId)
+    {
+        $request->validate([
+            'action' => 'required|in:accept,reject',
+        ]);
+
+        $debt = Defaulter::findOrFail($debtId);
+
+        // Cambia el valor de accepted según la acción
+        $debt->accepted = $request->action === 'accept' ? 1 : 2;
+        $debt->save();
+
+        return redirect()->route('defaultors.index', ['id' => $id])
+            ->with('status', 'La deuda ha sido actualizada correctamente.');
     }
 }

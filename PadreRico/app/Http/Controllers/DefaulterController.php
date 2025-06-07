@@ -56,4 +56,12 @@ class DefaulterController extends Controller
         $defaulter = Defaulter::with('debtor')->findOrFail($defaulterId);
         return view('defaulter.show', compact('id', 'defaulter'));
     }
+
+    public function destroy($id, $defaulterId)
+    {
+        $defaulter = Defaulter::findOrFail($defaulterId);
+        $defaulter->delete();
+
+        return redirect()->route('defaulter.index', ['id' => $id])->with('success', 'Deudor eliminado correctamente.');
+    }
 }
