@@ -44,7 +44,6 @@
                                 </div>
                                 <p class="text-2xl font-bold text-green-600 mb-2">{{ number_format($income->amount, 2) }} €
                                 </p>
-                                {{-- Descripción --}}
                                 <p class="text-gray-600 mb-2">
                                     {{ $income->description ?? 'Sin descripción' }}
                                 </p>
@@ -91,7 +90,7 @@
                                 <option value="Beca">Beca</option>
                                 <option value="Regalo">Regalo</option>
                                 <option value="Venta">Venta</option>
-                                <option value="other">Otra</option>
+                                <option value="Other">Otra</option>
                             </select>
                             <input type="text" name="other_category" id="otherIncomeCategoryInput"
                                 placeholder="Especifique la categoría" class="form-control form-control-lg mt-2"

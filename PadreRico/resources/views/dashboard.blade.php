@@ -11,7 +11,7 @@
             @endif
 
             {{-- Balance y Racha en dos columnas estilo estadísticas --}}
-            <div class="container py-4">
+            <div class="container-fluid py-4">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <div class="row">
@@ -44,16 +44,26 @@
                 </div>
             </div>
             {{-- MOVIMIENTOS RECIENTES GRÁFICO --}}
-            <div class="bg-white rounded-xl p-6 col-span-2 relative" style="height: 550px;">
-                <h3 class="text-md font-semibold flex items-center">
-                    <span class="material-icons">bar_chart</span>
-                    Ingresos vs Gastos
-                </h3>
-                <canvas id="incomeOutcomeChart" height="400" style="width:100%;display:block;"></canvas>
+            <div class="container-fluid py-4">
+                <div class="card shadow-sm">
+                    <div class="card-body" style="height: 550px;">
+                        <h3 class="text-md font-semibold flex items-center mb-4">
+                            <span class="material-icons">bar_chart</span>
+                            Ingresos vs Gastos
+                        </h3>
+                        <canvas id="incomeOutcomeChart" height="400" style="width:100%;display:block;"></canvas>
+                    </div>
+                </div>
             </div>
+            <button id="exportPdfBtn" class="btn btn-outline-primary mb-3">
+                <span class="material-icons align-middle">picture_as_pdf</span>
+                Exportar gráfico a PDF
+            </button>
 
             {{-- SCRIPTS Y ANIMACIONES --}}
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
             <script>
                 // Animación balance y racha
                 document.addEventListener('DOMContentLoaded', function() {
@@ -199,6 +209,20 @@
                                 }
                             }
                         }
+                    });
+                });
+
+                document.getElementById('exportPdfBtn').addEventListener('click', function () {
+                    const chartContainer = document.getElementById('incomeOutcomeChart');
+                    html2canvas(chartContainer).then(function (canvas) {
+                        const imgData = canvas.toDataURL('image/png');
+                        const pdf = new window.jspdf.jsPDF({
+                            orientation: 'landscape',
+                            unit: 'pt',
+                            format: [canvas.width, canvas.height]
+                        });
+                        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+                        pdf.save('grafico-ingresos-gastos.pdf');
                     });
                 });
             </script>

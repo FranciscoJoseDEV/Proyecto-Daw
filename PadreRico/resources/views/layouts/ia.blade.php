@@ -1,14 +1,14 @@
 <style>
     #chatbot {
         position: fixed;
-         right: 30px;
+        right: 30px;
         bottom: 30px;
         width: 350px;
         max-width: 95vw;
         background-color: #F2EFE7;
         border: 3px solid #9ACBD0;
         border-radius: 18px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
         padding: 0;
         display: none;
         font-size: 15px;
@@ -18,10 +18,19 @@
         flex-direction: column;
         overflow: hidden;
     }
+
     @keyframes chatbot-pop {
-        0% { transform: scale(0.8); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
     }
+
     #chatbot-header {
         background: #9ACBD0;
         color: #F2EFE7;
@@ -34,6 +43,7 @@
         font-size: 1.1em;
         letter-spacing: 1px;
     }
+
     #chatbot-header .close-btn {
         background: none;
         border: none;
@@ -42,9 +52,11 @@
         cursor: pointer;
         transition: color 0.2s;
     }
+
     #chatbot-header .close-btn:hover {
         color: #fff;
     }
+
     #chatbot-messages {
         flex: 1;
         padding: 18px 12px 12px 12px;
@@ -54,6 +66,7 @@
         flex-direction: column;
         gap: 10px;
     }
+
     .chat-bubble {
         max-width: 80%;
         padding: 10px 14px;
@@ -61,14 +74,16 @@
         margin-bottom: 2px;
         font-size: 1em;
         word-break: break-word;
-        box-shadow: 0 2px 8px rgba(154,203,208,0.07);
+        box-shadow: 0 2px 8px rgba(154, 203, 208, 0.07);
     }
+
     .chat-bubble.user {
         align-self: flex-end;
         background: #9ACBD0;
         color: #fff;
         border-bottom-right-radius: 4px;
     }
+
     .chat-bubble.bot {
         align-self: flex-start;
         background: #F2EFE7;
@@ -76,6 +91,7 @@
         border-bottom-left-radius: 4px;
         border: 1.5px solid #9ACBD0;
     }
+
     #chatbot-input-area {
         display: flex;
         gap: 8px;
@@ -83,6 +99,7 @@
         background: #F2EFE7;
         border-top: 1.5px solid #9ACBD0;
     }
+
     #userInput {
         flex: 1;
         border: 1.5px solid #9ACBD0;
@@ -94,9 +111,11 @@
         outline: none;
         transition: border 0.2s;
     }
+
     #userInput:focus {
         border: 1.5px solid #7bb3b7;
     }
+
     #send-btn {
         background: #9ACBD0;
         color: #F2EFE7;
@@ -108,9 +127,11 @@
         cursor: pointer;
         transition: background 0.2s;
     }
+
     #send-btn:hover {
         background: #7bb3b7;
     }
+
     #chatbot-toggle {
         position: fixed;
         right: 30px;
@@ -121,11 +142,12 @@
         border-radius: 50%;
         font-size: 32px;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
         border: 2px solid #F2EFE7;
         transition: background 0.2s;
         z-index: 1001;
     }
+
     #chatbot-toggle:hover {
         background-color: #7bb3b7;
     }
@@ -138,7 +160,8 @@
     </div>
     <div id="chatbot-messages"></div>
     <div id="chatbot-input-area">
-        <input type="text" class="form-control" id="userInput" placeholder="Pregúntale a tu padre..." onkeydown="if(event.key==='Enter'){sendMessage();}">
+        <input type="text" class="form-control" id="userInput" placeholder="Pregúntale a tu padre..."
+            onkeydown="if(event.key==='Enter'){sendMessage();}">
         <button id="send-btn" onclick="sendMessage()">Enviar</button>
     </div>
 </div>
@@ -164,7 +187,7 @@
         const messagesDiv = document.getElementById('chatbot-messages');
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble ' + sender;
-        if(sender === 'bot') {
+        if (sender === 'bot') {
             bubble.innerHTML = marked.parse(content);
         } else {
             bubble.textContent = content;
@@ -185,9 +208,12 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute(
+                        'content')
                 },
-                body: JSON.stringify({ message: text }),
+                body: JSON.stringify({
+                    message: text
+                }),
             });
             const data = await response.json();
             // Elimina el mensaje de "Consultando..."

@@ -5,7 +5,7 @@
         <div class="text-center mb-4">
             <h2 class="fw-bold mb-2">Personas a las que les debes dinero</h2>
             <p class="text-muted mb-0" style="max-width: 600px; margin: 0 auto;">
-                Si tienes deudas pendientes de aceptar y la aceptas te saldrá hasta que el otro usuario reciba el dinero. Si no la aceptas, a él le saldrá que la has rechazado.
+                Si tienes deudas pendientes de aceptar y la aceptas te saldrá hasta que el otro usuario reciba el dinero. Si la rechazas, a él le saldrá que la has rechazado.
             </p>
         </div>
 

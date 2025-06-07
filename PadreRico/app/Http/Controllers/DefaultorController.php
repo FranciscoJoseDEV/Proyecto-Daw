@@ -9,9 +9,9 @@ class DefaultorController extends Controller
 {
     public function index($id)
     {   
-        //personas a las que les debo dinero 
         $debts = Defaulter::with(['beneficiary'])
             ->where('debtor_user_id', $id)
+            ->where('accepted', '!=', 2)
             ->paginate(3);
         return view('defaultors.index', compact('debts'));
     }

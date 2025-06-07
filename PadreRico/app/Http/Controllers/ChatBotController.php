@@ -19,11 +19,21 @@ class ChatBotController extends Controller
             'model' => 'deepseek/deepseek-r1:free',
             'messages' => [
                 [
+                    'role' => 'system',
+                    'content' => 'Actúa como un gestor de finanzas profesional y no respondas nada que no tenga que ver con las finanzas personales.Ademas habla como hablaria un padre a su hijo y tu nombre es Padre Rico'
+                ],
+                [
                     'role' => 'user',
                     'content' => $request->input('message'),
                 ]
             ],
         ]);
+        if ($response->failed()) {
+            return response()->json([
+                'error' => 'API error',
+                'details' => $response->body()
+            ], 500);
+        }
         return $response->json();
     }
 }
