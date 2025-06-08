@@ -48,8 +48,9 @@ services:
       - app
     networks:
       - padrerico
-  volumes:
-   dbdata:
+
+volumes:
+  dbdata:
 
 networks:
   padrerico:
