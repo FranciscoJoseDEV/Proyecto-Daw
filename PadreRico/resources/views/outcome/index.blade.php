@@ -43,7 +43,7 @@
                                     <span
                                         class="badge bg-danger text-white px-2 py-1 rounded">{{ $outcome->date->format('d/m/Y') }}</span>
                                 </div>
-                                <p class="text-2xl font-bold text-red-600 mb-2">${{ number_format($outcome->amount, 2) }}
+                                <p class="text-2xl font-bold text-red-600 mb-2">{{ number_format($outcome->amount, 2) }}€
                                 </p>
                                 <p class="text-gray-600 mb-2">{{ $outcome->description }}</p>
                                 <form

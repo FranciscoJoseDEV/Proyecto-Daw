@@ -48,7 +48,7 @@
         }
     </style>
 
-    <title>{{ config('app.name', 'TU PADRE RICO') }}</title>
+    <title>{{ config('TU PADRE RICO', 'TU PADRE RICO') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

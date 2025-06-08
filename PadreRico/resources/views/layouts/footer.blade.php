@@ -1,13 +1,15 @@
-{{-- filepath: c:\Users\frand\Documents\Proyecto Daw\PadreRico\resources\views\layouts\footer.blade.php --}}
+{{-- filepath: resources/views/layouts/footer.blade.php --}}
 <footer x-data="{ open: false }"
-    class="bg-cssecondary text-black py-4 flex flex-col md:flex-row items-center w-full px-4 border-t border-gray-300 transition-all duration-300"
+    class="bg-cssecondary text-black py-4 px-4 border-t border-gray-300 w-full flex flex-col items-center relative"
     role="contentinfo" aria-label="Pie de página" @mouseenter="open = true" @mouseleave="open = false">
-    <div class="flex items-center justify-center gap-2 w-full">
-        <p class="text-sm mb-2 md:mb-0 text-center w-full">© 2025 Tu Padre Rico. Todos los derechos reservados.</p>
+
+    <!-- Texto siempre visible -->
+    <div class="w-full flex justify-center">
+        <p class="text-sm text-center font-semibold">© 2025 Tu Padre Rico. Todos los derechos reservados.</p>
     </div>
-    <div class="flex flex-wrap gap-4 overflow-hidden transition-all duration-300 w-full justify-center"
-        :class="{ 'max-h-40 opacity-100 mt-2': open, 'max-h-0 opacity-0 mt-0': !open }"
-        style="transition-property: max-height, opacity, margin-top;">
+
+    <!-- Enlaces ocultos hasta hover, siempre abajo -->
+    <div class="footer-links w-full flex flex-wrap gap-4 justify-center mt-2" :class="{ 'footer-links-open': open }">
         <a href="{{ route('cookies') }}"
             class="flex items-center hover:underline focus:outline-none focus:ring-2 focus:ring-csprimary"
             aria-label="Política de cookies">
@@ -41,4 +43,18 @@
             <span class="material-icons mr-1" style="font-size: 20px;">facebook</span>
         </a>
     </div>
+    <style>
+        .footer-links {
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
+            overflow: hidden;
+        }
+
+        .footer-links-open {
+            max-height: 200px;
+            /* Ajusta según la cantidad de enlaces */
+            opacity: 1;
+        }
+    </style>
 </footer>

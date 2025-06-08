@@ -1,22 +1,24 @@
-<div class="justify-center  min-h-screen bg-cssecondary">
-    <section class="flex-row gap-6 w-full max-w-4xl p-6 rounded-lg">
-        <div class="w-1/2 p-4 rounded-lg">
-            <header>
-                <h2 class="text-lg font-medium text-black">
+    <section class=" p-8 flex flex-col md:flex-row gap-8 w-full max-w-3xl">
+        <!-- Imagen de perfil -->
+        <div class="flex flex-col items-center justify-center md:w-1/3 w-full">
+            <img src="{{ $user->img ? asset('storage/' . $user->img) : asset('imgs/9187604.png') }}"
+                 alt="Imagen de perfil"
+                 class="w-40 h-40 rounded-full border-4 border-gray-300 object-cover shadow-md mb-4">
+            <h2 class="text-lg font-semibold text-gray-800 mt-2">{{ $user->name }}</h2>
+        </div>
+
+        <!-- Formulario -->
+        <div class="md:w-2/3 w-full">
+            <header class="mb-4">
+                <h2 class="text-xl font-bold text-gray-900">
                     {{ __('Información del Perfil') }}
                 </h2>
-                <p class="mt-1 text-sm text-black">
+                <p class="mt-1 text-sm text-gray-600">
                     {{ __('Actualiza la información de tu perfil, la dirección de correo electrónico y la imagen de perfil de tu cuenta.') }}
                 </p>
             </header>
 
-            <div class="w-1/2 flex justify-center items-center">
-                <img src="{{ $user->img ? asset('storage/' . $user->img) : asset('imgs/9187604.png') }}" 
-                     alt="Imagen de perfil" 
-                     class="w-48 h-48 rounded-full border-2 border-gray-300 object-cover">
-            </div>
-
-            <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
+            <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('patch')
 
@@ -44,10 +46,10 @@
                     <x-primary-button>{{ __('Guardar') }}</x-primary-button>
                     @if (session('status') === 'profile-updated')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                            class="text-sm text-gray-600 dark:text-gray-400">{{ __('Guardado.') }}</p>
+                            class="text-sm text-green-600">{{ __('Guardado.') }}</p>
                     @endif
                 </div>
             </form>
         </div>
     </section>
-</div>
+

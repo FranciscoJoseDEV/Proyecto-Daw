@@ -24,13 +24,7 @@ services:
   db:
     image: mariadb:11
     container_name: padrerico-db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: padrerico
-      MYSQL_ROOT_PASSWORD: secret
-    ports:
-      - "3306:3306"
-    volumes:
+     volumes:
       - dbdata:/var/lib/mysql
     networks:
       - padrerico

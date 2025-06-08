@@ -1,11 +1,9 @@
-<aside x-data="{ open: false, subOpen: false, statsOpen: false }"
-    class="bg-cssecondary text-black flex flex-col transform transition-transform duration-300 md:translate-x-0 overflow-hidden"
-    :class="{ 'w-64': open, 'w-12': !open }" @mouseenter="open = true" @mouseleave="open = false">
+<aside x-data="{ open: false, subOpen: false, statsOpen: false }" :class="open ? 'aside-transition open' : 'aside-transition'"
+    class="bg-cssecondary text-black flex flex-col overflow-hidden" @mouseenter="open = true" @mouseleave="open = false">
 
-    <!-- Cierra el submenú cuando el sidebar se cierre -->
+    <!-- Cierra los submenús cuando el sidebar se cierre -->
     <div x-effect="if (!open) subOpen = false"></div>
     <div x-effect="if (!open) statsOpen = false"></div>
-
 
     <nav class="flex-1 p-4 flex flex-col justify-center">
         <ul class="top-0">
@@ -56,10 +54,10 @@
                     class="flex items-center p-2 rounded hover:bg-gray-700 focus:outline-none group">
                     <span class="material-icons mr-2 group-hover:text-white">payments</span>
                     <span x-show="open" class="transition-opacity duration-300 flex-1 text-left">&nbsp;Deudas</span>
-                    <span x-show="open" class="material-icons ml-auto transition-transform duration-300 group-hover:text-white"
-                        :class="{ 'rotate-45': subOpen }">keyboard_arrow_down</span>
+                    <span x-show="open"
+                        class="material-icons ml-auto transition-transform duration-300 group-hover:text-white"
+                        :class="{ 'rotate-[-90]': subOpen }">chevron_left</span>
                 </button>
-
                 <!-- Submenú -->
                 <ul x-show="subOpen" x-collapse class="ml-8 mt-2 space-y-2" x-cloak>
                     <li>
@@ -78,7 +76,6 @@
                     </li>
                 </ul>
             </li>
-
             <!-- Menú desplegable para Estadísticas -->
             <li class="mb-4">
                 <button @click="statsOpen = !statsOpen"
@@ -86,8 +83,9 @@
                     <span class="material-icons mr-2 group-hover:text-white">pie_chart</span>
                     <span x-show="open"
                         class="transition-opacity duration-300 flex-1 text-left">&nbsp;Estadísticas</span>
-                    <span x-show="open" class="material-icons ml-auto transition-transform duration-300 group-hover:text-white"
-                        :class="{ 'rotate-45': statsOpen }">keyboard_arrow_down</span>
+                    <span x-show="open"
+                        class="material-icons ml-auto transition-transform duration-300 group-hover:text-white"
+                        :class="{ 'rotate-[-90]': statsOpen }">chevron_left</span>
                 </button>
                 <!-- Submenú -->
                 <ul x-show="statsOpen" x-collapse class="ml-8 mt-2 space-y-2" x-cloak>
@@ -107,17 +105,30 @@
                     </li>
                 </ul>
             </li>
-
             {{-- Opción solo para admin --}}
             @if (Auth::user()->role == 0)
                 <li class="mb-4">
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center p-2 rounded hover:bg-gray-700 group">
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center p-2 rounded hover:bg-gray-700 group">
                         <span class="material-icons mr-2 group-hover:text-white">admin_panel_settings</span>
                         <span x-show="open" class="transition-opacity duration-300">&nbsp;Administración</span>
                     </a>
                 </li>
             @endif
-
         </ul>
     </nav>
+    <style>
+        .aside-transition {
+            transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Puedes ajustar la duración y la curva para más suavidad */
+            width: 6rem;
+            /* ancho cerrado */
+            overflow: hidden;
+        }
+
+        .aside-transition.open {
+            width: 16rem;
+            
+        }
+    </style>
 </aside>

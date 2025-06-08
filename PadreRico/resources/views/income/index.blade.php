@@ -42,7 +42,7 @@
                                     <span
                                         class="badge bg-success text-black px-2 py-1 rounded">{{ $income->date->format('d/m/Y') }}</span>
                                 </div>
-                                <p class="text-2xl font-bold text-green-600 mb-2">{{ number_format($income->amount, 2) }} €
+                                <p class="text-2xl font-bold text-green-600 mb-2">{{ number_format($income->amount, 2) }}€
                                 </p>
                                 <p class="text-gray-600 mb-2">
                                     {{ $income->description ?? 'Sin descripción' }}
