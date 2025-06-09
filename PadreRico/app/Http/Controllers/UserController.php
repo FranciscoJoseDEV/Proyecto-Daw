@@ -86,6 +86,8 @@ class UserController extends Controller
             }
         }
 
+        $apiKey = config('services.exchangerate.key');
+
         return view('dashboard', compact(
             'user',
             'labels',
@@ -94,6 +96,6 @@ class UserController extends Controller
             'nonRecurrentIncomesData',
             'recurrentOutcomesData',
             'nonRecurrentOutcomesData'
-        ));
+        ))->with('exchangeRateApiKey', $apiKey);
     }
 }

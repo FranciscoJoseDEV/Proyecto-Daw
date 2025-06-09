@@ -240,5 +240,65 @@
                 pdf.save('grafico-ingresos-gastos.pdf');
             });
         });
+
+        // --- Conversor de divisas usando ExchangeRate-API ---
+        const exchangeRateApiKey = "{{ config('services.exchangerate.key') }}";
+        const balanceElement = document.getElementById('balance');
+        const balanceValue = {{ $user->savings }};
+        const currencySelect = document.createElement('select');
+        currencySelect.className = 'form-select mb-2';
+        currencySelect.style.width = 'auto';
+
+        const currencySymbols = {
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£',
+            'JPY': '¥',
+            'MXN': '$'
+        };
+
+        const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'MXN'];
+        currencies.forEach(cur => {
+            const opt = document.createElement('option');
+            opt.value = cur;
+            opt.textContent = cur;
+            currencySelect.appendChild(opt);
+        });
+
+        balanceElement.parentNode.insertBefore(currencySelect, balanceElement.nextSibling);
+
+        // Función para actualizar el balance convertido
+        async function updateConvertedBalance() {
+            const selectedCurrency = currencySelect.value;
+            const symbol = currencySymbols[selectedCurrency] || selectedCurrency;
+            if (selectedCurrency === 'EUR') {
+                balanceElement.textContent = `${balanceValue.toLocaleString()} ${symbol}`;
+                return;
+            }
+            // Cambia 'YOUR_API_KEY' por tu clave real
+            const apiKey = typeof exchangeRateApiKey !== 'undefined' ? exchangeRateApiKey : '';
+            const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/EUR`;
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                const rate = data.conversion_rates[selectedCurrency];
+                if (rate) {
+                    const converted = balanceValue * rate;
+                    balanceElement.textContent =
+                        `${converted.toLocaleString(undefined, {maximumFractionDigits: 2})} ${symbol}`;
+                } else {
+                    balanceElement.textContent = 'Error de moneda';
+                }
+            } catch (e) {
+                balanceElement.textContent = 'Error de API';
+            }
+        }
+
+        // Evento para cambiar la moneda
+        currencySelect.addEventListener('change', updateConvertedBalance);
+
+        // Por defecto muestra en EUR
+        currencySelect.value = 'EUR';
+        updateConvertedBalance();
     </script>
 @endpush
