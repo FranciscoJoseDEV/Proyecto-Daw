@@ -108,8 +108,6 @@
             const baseSize = 40; // px
             const maxSize = 100; // px
 
-            // Factor de crecimiento más lento por día de racha
-            // Puedes ajustar el divisor (por ejemplo, 2, 3, 4...) para que el crecimiento sea más lento
             const growthDivisor = 3;
 
             let currentIconSize = baseSize;
@@ -275,7 +273,6 @@
                 balanceElement.textContent = `${balanceValue.toLocaleString()} ${symbol}`;
                 return;
             }
-            // Cambia 'YOUR_API_KEY' por tu clave real
             const apiKey = typeof exchangeRateApiKey !== 'undefined' ? exchangeRateApiKey : '';
             const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/EUR`;
             try {
