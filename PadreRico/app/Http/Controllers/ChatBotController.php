@@ -16,8 +16,8 @@ class ChatBotController extends Controller
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $apiKey,
-            'Referer' => 'https://www.sitename.com',
-            'X-Title' => 'SiteName',
+            'Referer' => 'http://44.222.77.214:8000',
+            'X-Title' => 'Padre Rico',
         ])->post('https://openrouter.ai/api/v1/chat/completions', [
             'model' => 'deepseek/deepseek-r1:free',
             'messages' => [
