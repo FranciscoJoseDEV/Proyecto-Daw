@@ -65,7 +65,7 @@
                             <td>
                                 @if ($user->role == 1)
                                     Usuario
-                                @elseif($user->role == 2)
+                                @elseif($user->role == 0)
                                     Admin
                                 @else
                                     Desconocido
@@ -123,7 +123,7 @@
                                 <select name="role" class="form-select" required>
                                     <option value="1" @if ($user->role == 1) selected @endif>
                                         Usuario</option>
-                                    <option value="2" @if ($user->role == 2) selected @endif>
+                                    <option value="0" @if ($user->role == 0) selected @endif>
                                         Admin</option>
                                 </select>
                             </div>

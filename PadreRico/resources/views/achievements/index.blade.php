@@ -42,7 +42,9 @@
         </div>
     </div>
 
-    <style>
+    
+@endsection
+@push('styles')<style>
         .achievement-unlocked {
             border: 2px solid #4ade80; /* verde */
             box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
@@ -64,4 +66,4 @@
             color: #9ca3af; /* gris */
         }
     </style>
-@endsection
+@endpush

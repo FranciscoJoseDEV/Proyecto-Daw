@@ -140,17 +140,18 @@
         </div>
     </div>
 @endsection
+@push('styles')
+    <style>
+        .card-outcome:hover {
+            box-shadow: 0 0.5rem 1.5rem rgba(220, 53, 69, 0.15);
+            transform: translateY(-4px) scale(1.02);
+            transition: all 0.2s;
+        }
 
-<style>
-    .card-outcome:hover {
-        box-shadow: 0 0.5rem 1.5rem rgba(220, 53, 69, 0.15);
-        transform: translateY(-4px) scale(1.02);
-        transition: all 0.2s;
-    }
 
-
-    .card-outcome {
-        border: 2px solid #dc3545 !important;
-        border-radius: 5px;
-    }
-</style>
+        .card-outcome {
+            border: 2px solid #dc3545 !important;
+            border-radius: 5px;
+        }
+    </style>
+@endpush

@@ -141,33 +141,34 @@
     </div>
 
 @endsection
+@push('styles')
+    <style>
+        .card-income:hover {
+            box-shadow: 0 0.5rem 1.5rem rgba(16, 185, 129, 0.15);
+            transform: translateY(-4px) scale(1.02);
+            transition: all 0.2s;
+        }
 
-<style>
-    .card-income:hover {
-        box-shadow: 0 0.5rem 1.5rem rgba(16, 185, 129, 0.15);
-        transform: translateY(-4px) scale(1.02);
-        transition: all 0.2s;
-    }
+        .card-income {
+            border: 2px solid #157347 !important;
+            border-radius: 5px;
+        }
 
-    .card-income {
-        border: 2px solid #157347 !important;
-        border-radius: 5px;
-    }
+        .modal-content {
+            border-radius: 1.5rem;
+        }
 
-    .modal-content {
-        border-radius: 1.5rem;
-    }
+        .modal-header {
+            border-bottom: none;
+            align-items: center;
+        }
 
-    .modal-header {
-        border-bottom: none;
-        align-items: center;
-    }
+        .modal-title {
+            flex: 1;
+        }
 
-    .modal-title {
-        flex: 1;
-    }
-
-    .modal-footer {
-        border-top: none;
-    }
-</style>
+        .modal-footer {
+            border-top: none;
+        }
+    </style>
+@endpush

@@ -48,6 +48,8 @@
         }
     </style>
 
+    @stack('styles') <!-- Aquí se insertarán los estilos de las vistas -->
+
     <title>{{ config('TU PADRE RICO', 'TU PADRE RICO') }}</title>
 
     <!-- Fonts -->
@@ -59,7 +61,6 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
-
     <script src="//unpkg.com/alpinejs" defer></script>
 
     <!-- Scripts -->
@@ -94,7 +95,7 @@
         <!-- Footer -->
         @include('layouts.footer')
     </div>
-    @yield('scripts')
+    @stack('scripts') <!-- Aquí se insertarán los scripts de las vistas -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
