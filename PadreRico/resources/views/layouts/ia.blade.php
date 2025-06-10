@@ -208,17 +208,29 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute(
-                        'content')
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
                 },
                 body: JSON.stringify({
                     message: text
                 }),
             });
-            const data = await response.json();
+
+            // Intenta parsear como JSON, si falla muestra error amigable
+            let data;
+            try {
+                data = await response.json();
+            } catch (e) {
+                // Elimina el mensaje de "Consultando..."
+                const messagesDiv = document.getElementById('chatbot-messages');
+                messagesDiv.removeChild(messagesDiv.lastChild);
+                appendMessage('Error: El servidor no respondió correctamente. Intenta más tarde.', 'bot');
+                return;
+            }
+
             // Elimina el mensaje de "Consultando..."
             const messagesDiv = document.getElementById('chatbot-messages');
             messagesDiv.removeChild(messagesDiv.lastChild);
+
             const markdownText = data.choices?.[0]?.message?.content || data.error || 'No response received.';
             appendMessage(markdownText, 'bot');
         } catch (error) {
