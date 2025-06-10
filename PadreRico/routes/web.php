@@ -87,7 +87,7 @@ Route::middleware(['auth', 'verified', RoleManager::class . ':user'])->group(fun
     //Achievements routes
     Route::get('user/{id}/achievements', [AchivementsController::class, 'index'])->name('achievements.index');
 });
-Route::post('/api/chatbot', [ChatBotController::class, 'ask']);
+Route::post('/api/chatbot', [ChatbotController::class, 'ask']);
 
 Route::post('/verify-code', [VerificationCodeController::class, 'verify'])->name('verification.code');
 Route::post('/resend-code', [VerificationCodeController::class, 'resend'])->name('verification.resend');
