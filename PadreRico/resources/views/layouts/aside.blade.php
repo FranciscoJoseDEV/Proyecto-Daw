@@ -1,5 +1,8 @@
-<aside x-data="{ open: false, subOpen: false, statsOpen: false }" :class="open ? 'aside-transition open' : 'aside-transition'"
-    class="bg-cssecondary text-black flex flex-col overflow-hidden" @mouseenter="open = true" @mouseleave="open = false">
+<aside x-data="{ open: false, subOpen: false, statsOpen: false }"
+    :class="open ? 'aside-transition open' : 'aside-transition'"
+    class="bg-cssecondary text-black flex flex-col overflow-hidden"
+    @mouseenter="open = true"
+    @mouseleave="open = false">
 
     <!-- Cierra los submenús cuando el sidebar se cierre -->
     <div x-effect="if (!open) subOpen = false"></div>

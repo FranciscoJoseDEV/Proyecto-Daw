@@ -24,77 +24,76 @@
 
         {{-- Tarjeta de objetivo o mensaje de bienvenida --}}
         @if ($objective)
-            <div class="d-flex justify-content-center align-items-stretch" style="min-height: 40vh;">
-                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-4 flex flex-col flex-md-row border border-gray-100 w-100"
-                    style="max-width: 900px;">
-                    <div class="flex-1 d-flex flex-column justify-content-between">
-                        <div>
-                            <div class="flex items-center mb-3">
-                                <h2 class="text-2xl font-bold text-gray-800">{{ $objective->objective_name }}</h2>
-                            </div>
-                            {{-- Tarjetas alineadas en grid --}}
-                            <div class="row g-2 mb-3">
-                                <div class="col-6 col-md-3">
-                                    <div class="bg-gray-50 rounded p-2 text-center h-100">
-                                        <div class="text-xs text-gray-500 flex items-center justify-center gap-1">
-                                            <span class="material-icons text-base text-green-500">flag</span> Meta
-                                        </div>
-                                        <div class="font-bold text-green-600 text-lg">
-                                            {{ number_format($objective->goal_amount, 2) }}€</div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="bg-gray-50 rounded p-2 text-center h-100">
-                                        <div class="text-xs text-gray-500 flex items-center justify-center gap-1">
-                                            <span class="material-icons text-base text-blue-500">savings</span> Ahorrado
-                                        </div>
-                                        <div class="font-bold text-blue-600 text-lg">
-                                            {{ number_format($objective->user->savings ?? 0, 2) }}€</div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="bg-gray-50 rounded p-2 text-center h-100">
-                                        <div class="text-xs text-gray-500 flex items-center justify-center gap-1">
-                                            <span class="material-icons text-base text-red-500">hourglass_bottom</span>
-                                            Restante
-                                        </div>
-                                        <div class="font-bold text-red-600 text-lg">{{ number_format($restante, 2) }}€</div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="bg-gray-50 rounded p-2 text-center h-100">
-                                        <div class="text-xs text-gray-500 flex items-center justify-center gap-1">
-                                            <span class="material-icons text-base text-purple-500">event</span> Días
-                                            restantes
-                                        </div>
-                                        <div class="font-bold text-purple-600 text-lg">
-                                            {{ $diasRestantes >= 0 ? $diasRestantes : 0 }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="progress bg-csdetails" style="height: 22px;">
-                                    <div class="progress-bar bg-{{ $progressColor }} d-flex align-items-center justify-content-center"
-                                        role="progressbar" style="width: {{ $progreso }}%; font-weight: bold;"
-                                        aria-valuenow="{{ $progreso }}" aria-valuemin="0" aria-valuemax="100">
-                                        {{ $progreso }}%
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-gray-500 mb-1">
-                                <span class="font-semibold">Fecha límite:</span>
-                                <span
-                                    class="font-semibold">{{ \Carbon\Carbon::parse($objective->date_limit)->format('d/m/Y') }}</span>
-                            </p>
+            <div class="row justify-content-center mb-4">
+                <div class="col-12 col-lg-10">
+                    <div class="bg-white rounded-xl shadow-lg p-4 border border-gray-100">
+                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2 mb-md-0">{{ $objective->objective_name }}</h2>
+                            <button type="button" class="btn btn-outline-primary d-flex align-items-center"
+                                data-bs-toggle="modal" data-bs-target="#editarObjetivoModal">
+                                <span class="material-icons me-1">edit</span> Editar objetivo
+                            </button>
                         </div>
-                    </div>
-                    <div class="d-flex flex-column align-items-center justify-content-end mt-3 mt-md-0 ms-md-4"
-                        style="min-width: 180px;">
-                        {{-- Botón para editar --}}
-                        <button type="button" class="px-4 py-2 bg-cssecondary text-black rounded transition btn w-100"
-                            data-bs-toggle="modal" data-bs-target="#editarObjetivoModal" aria-label="Editar objetivo">
-                            <span class="material-icons align-middle mr-1">edit</span> Editar objetivo
-                        </button>
+                        <div class="row g-3 mb-4">
+                            <div class="col-6 col-md-3">
+                                <div class="bg-light rounded p-3 text-center h-100">
+                                    <div class="text-xs text-gray-500 mb-1">
+                                        <span class="material-icons text-green-500">flag</span> Meta
+                                    </div>
+                                    <div class="fw-bold text-success fs-4">
+                                        {{ number_format($objective->goal_amount, 2) }}€
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="bg-light rounded p-3 text-center h-100">
+                                    <div class="text-xs text-gray-500 mb-1">
+                                        <span class="material-icons text-blue-500">savings</span> Ahorrado
+                                    </div>
+                                    <div class="fw-bold text-primary fs-4">
+                                        {{ number_format($objective->user->savings ?? 0, 2) }}€
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="bg-light rounded p-3 text-center h-100">
+                                    <div class="text-xs text-gray-500 mb-1">
+                                        <span class="material-icons text-danger">hourglass_bottom</span> Restante
+                                    </div>
+                                    <div class="fw-bold text-danger fs-4">
+                                        {{ number_format($restante, 2) }}€
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="bg-light rounded p-3 text-center h-100">
+                                    <div class="text-xs text-gray-500 mb-1">
+                                        <span class="material-icons text-purple-500">event</span> Días restantes
+                                    </div>
+                                    <div class="fw-bold text-purple-600 fs-4">
+                                        {{ $diasRestantes >= 0 ? $diasRestantes : 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Progreso</span>
+                                <span class="fw-bold">{{ $progreso }}%</span>
+                            </div>
+                            <div class="progress" style="height: 22px;">
+                                <div class="progress-bar bg-{{ $progressColor }}"
+                                    role="progressbar"
+                                    style="width: {{ $progreso }}%;"
+                                    aria-valuenow="{{ $progreso }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ $progreso }}%
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 mb-0">
+                            <span class="fw-semibold">Fecha límite:</span>
+                            <span class="fw-semibold">{{ \Carbon\Carbon::parse($objective->date_limit)->format('d/m/Y') }}</span>
+                        </p>
                     </div>
                 </div>
             </div>

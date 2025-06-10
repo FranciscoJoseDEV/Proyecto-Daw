@@ -7,6 +7,7 @@ use App\Models\Outcome;
 use Carbon\Carbon;
 use App\Models\User;    
 use Illuminate\Http\Request;
+use App\Models\Income;
 
 class StatisticsController extends Controller
 {
@@ -164,8 +165,11 @@ class StatisticsController extends Controller
     {
         list($startDate, $endDate) = $this->getDateRange($m_or_w);
 
-        // Aquí deberías usar tu modelo de ingresos si existe, este es solo un ejemplo usando Outcome
-        $incomeTotal = 0; // Cambia esto por el modelo correcto si tienes ingresos
+        // Sumar ingresos reales
+        $incomeTotal = Income::where('user_id', $id)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->sum('amount');
+
         $outcomeTotal = Outcome::where('user_id', $id)
             ->whereBetween('date', [$startDate, $endDate])
             ->sum('amount');

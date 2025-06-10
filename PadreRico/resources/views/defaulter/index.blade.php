@@ -15,29 +15,59 @@
                 <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch">
                     <div class="card shadow-sm w-100 border-0 h-100">
                         <img src="{{ $defaulter->debtor->img ? asset('storage/' . $defaulter->debtor->img) : asset('imgs/9187604.png') }}"
-                            class="card-img-top rounded-circle mx-auto mt-3"
-                            style="height: 120px; width: 120px; object-fit: cover; border-radius: 50%;"
-                            alt="{{ $defaulter->debtor->name }}">
-                        <div class="card-body text-center">
-                            <h5 class="card-title fw-semibold">{{ $defaulter->debtor->name }}</h5>
-                            <p class="card-text fs-5 text-muted">{{ number_format($defaulter->amount, 2) }}€</p>
-                            {{-- Estado de la deuda --}}
-                            @if ($defaulter->accepted == 0)
-                                <span class="badge bg-warning text-dark mb-3 px-3 py-2">Pendiente de aceptar</span>
-                            @elseif ($defaulter->accepted == 1)
-                                <span class="badge bg-success mb-3 px-3 py-2">Aceptada</span>
-                            @elseif ($defaulter->accepted == 2)
-                                <span class="badge bg-danger mb-3 px-3 py-2">Cancelada</span>
+                            class="card-img-top rounded-circle mx-auto mt-4 border border-3 border-primary"
+                            style="height: 110px; width: 110px; object-fit: cover;" alt="{{ $defaulter->debtor->name }}">
+                        <div class="card-body text-center d-flex flex-column justify-content-between h-100">
+                            <h5 class="card-title fw-bold mb-1 text-primary">{{ $defaulter->debtor->name }}</h5>
+                            <p class="text-muted mb-1 small"><i class="bi bi-envelope"></i> {{ $defaulter->debtor->email }}
+                            </p>
+                            <p class="fs-5 fw-semibold text-success mb-2">{{ number_format($defaulter->amount, 2) }}€</p>
+
+                            <div class="mb-2">
+                                <span class="badge bg-light text-dark border mb-1">
+                                    <i class="bi bi-calendar-event"></i>
+                                    <b>Inicio:</b> {{ \Carbon\Carbon::parse($defaulter->inicial_date)->format('d/m/Y') }}
+                                </span>
+                                <span class="badge bg-light text-dark border mb-1">
+                                    <i class="bi bi-calendar-check"></i>
+                                    <b>Vence:</b> {{ \Carbon\Carbon::parse($defaulter->due_date)->format('d/m/Y') }}
+                                </span>
+                            </div>
+                            <div class="mb-2">
+                                @php
+                                    $dias = \Carbon\Carbon::parse($defaulter->due_date)->floatDiffInDays(now(), false);
+                                    $diasRedondeados = round(abs($dias));
+                                @endphp
+                                @if ($dias < 0)
+                                    <span class="badge bg-info text-dark">Faltan {{ $diasRedondeados }} días</span>
+                                @elseif($dias === 0)
+                                    <span class="badge bg-warning text-dark">Vence hoy</span>
+                                @else
+                                    <span class="badge bg-danger">Vencida hace {{ $diasRedondeados }} días</span>
+                                @endif
+                            </div>
+                            @if ($defaulter->description)
+                                <p class="mb-2 small text-secondary"><i class="bi bi-info-circle"></i>
+                                    {{ $defaulter->description }}</p>
                             @endif
+                            <div class="mb-2">
+                                {{-- Estado de la deuda --}}
+                                @if ($defaulter->accepted == 0)
+                                    <span class="badge bg-warning text-dark px-3 py-2">Pendiente de aceptar</span>
+                                @elseif ($defaulter->accepted == 1)
+                                    <span class="badge bg-success px-3 py-2">Aceptada</span>
+                                @elseif ($defaulter->accepted == 2)
+                                    <span class="badge bg-danger px-3 py-2">Cancelada</span>
+                                @endif
+                            </div>
                             <div class="d-flex justify-content-center gap-2 mt-2">
-                                <a href="{{ route('defaulter.show', ['id' => Auth::user()->id, 'idDef' => $defaulter->id]) }}"
-                                    class="btn btn-primary">
-                                    Ver detalles
-                                </a>
-                                <form action="{{ route('defaulter.destroy', ['id' => Auth::user()->id, 'idDef' => $defaulter->id]) }}" method="POST">
+                                <form
+                                    action="{{ route('defaulter.destroy', ['id' => Auth::user()->id, 'idDef' => $defaulter->id]) }}"
+                                    method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este deudor?')">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                        onclick="return confirm('¿Seguro que deseas eliminar este deudor?')">
                                         <span class="material-icons align-middle">delete</span>
                                     </button>
                                 </form>
@@ -57,7 +87,6 @@
         </div>
     </div>
 
-    <!-- Modal Mejorado -->
     <div class="modal fade" id="createDefaulterModal" tabindex="-1" aria-labelledby="createDefaulterModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
