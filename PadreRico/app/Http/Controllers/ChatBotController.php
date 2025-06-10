@@ -16,7 +16,7 @@ class ChatBotController extends Controller
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $apiKey,
-            'Referer' => 'http://44.222.77.214:8000',
+            'Referer' => 'http://98.82.138.75:8000',
             'X-Title' => 'Padre Rico',
         ])->post('https://openrouter.ai/api/v1/chat/completions', [
             'model' => 'deepseek/deepseek-r1:free',
@@ -33,8 +33,17 @@ class ChatBotController extends Controller
         ]);
 
         if ($response->failed()) {
-            // Devuelve el cuerpo de la respuesta para depuración
-            return response($response->body(), 500);
+            // Intenta decodificar el cuerpo como JSON
+            $json = json_decode($response->body(), true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                return response()->json($json, 500);
+            } else {
+                // Si no es JSON, devuelve un error genérico
+                return response()->json([
+                    'error' => 'Error inesperado del servidor de IA. Intenta más tarde.',
+                    'details' => $response->body()
+                ], 500);
+            }
         }
         return $response->json();
     }
