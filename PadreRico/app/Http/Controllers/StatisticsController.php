@@ -139,7 +139,7 @@ class StatisticsController extends Controller
             $statistics = $lastStatistic;
         }
 
-        return view('statistics.indexWeekly', compact('statistics'));
+        return view('statistics.IndexWeekly', compact('statistics'));
     }
 
     public function mostExpendingDay($id, $m_or_w)
