@@ -32,19 +32,7 @@ class ChatBotController extends Controller
             ],
         ]);
 
-        if ($response->failed()) {
-            // Intenta decodificar el cuerpo como JSON
-            $json = json_decode($response->body(), true);
-            if (json_last_error() === JSON_ERROR_NONE) {
-                return response()->json($json, 500);
-            } else {
-                // Si no es JSON, devuelve un error genérico
-                return response()->json([
-                    'error' => 'Error inesperado del servidor de IA. Intenta más tarde.',
-                    'details' => $response->body()
-                ], 500);
-            }
-        }
+
         return $response->json();
     }
 }
