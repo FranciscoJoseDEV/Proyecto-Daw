@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class ChatbotController extends Controller
+class ChatBotController extends Controller
 {
     public function ask(Request $request)
     {
@@ -39,7 +39,7 @@ class ChatbotController extends Controller
                     'details' => $response->json()
                 ], $response->status());
             }
-
+            //que cojone
             return $response->json();
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
