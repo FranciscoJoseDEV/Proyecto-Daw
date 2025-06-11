@@ -39,7 +39,7 @@ class ChatBotController extends Controller
                     'details' => $response->json()
                 ], $response->status());
             }
-
+            //que cojone
             return $response->json();
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
