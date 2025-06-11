@@ -3,7 +3,7 @@
 <div class="container py-4">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h1 class="mb-4 text-center">Estadísticas Semanales</h1>
+            <h1 class="mb-4 text-center display-4">Estadísticas Semanales</h1>
             <div class="row g-4">
                 <!-- Columna de datos -->
                 <div class="col-md-6">

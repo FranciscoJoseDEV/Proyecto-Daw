@@ -31,7 +31,7 @@
                             <h2 class="text-2xl font-bold text-gray-800 mb-2 mb-md-0">{{ $objective->objective_name }}</h2>
                             <button type="button" class="btn btn-outline-primary d-flex align-items-center"
                                 data-bs-toggle="modal" data-bs-target="#editarObjetivoModal">
-                                <span class="material-icons me-1">edit</span> Editar objetivo
+                                <span class="material-icons me-1">edit</span>
                             </button>
                         </div>
                         <div class="row g-3 mb-4">
